@@ -34,7 +34,7 @@ class LAMMPSBase(rfm.RunOnlyRegressionTest):
             item=-1,
         )
 
-    @performance_function("ns/day", perf_key="perf")
+    @performance_function("ns/day", perf_key="performance")
     def extract_perf(self):
         """Extract performance value to compare with reference value"""
         return sn.extractsingle(
