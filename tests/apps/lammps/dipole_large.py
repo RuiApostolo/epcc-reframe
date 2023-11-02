@@ -36,8 +36,6 @@ class LAMMPSDipole(LAMMPSBase):
         """sets up number of nodes"""
         if self.current_system.name in ["archer2"]:
             self.num_tasks_per_node = 128
-        else:
-            raise ValueError("Number of nodes in system not defined")
 
     @run_before("run")
     def setup_resources(self):

@@ -44,6 +44,9 @@ class LAMMPSBaseEthanol(LAMMPSBase):
             "energy": (ethanol_energy_reference, -0.01, 0.01, "kJ/mol")
         },
     }
+    print("---BASE---")
+    print(reference)
+    print("---ENDBASE---")
 
 
 @rfm.simple_test
@@ -53,7 +56,7 @@ class LAMMPSARCHER2EthanolCPU(LAMMPSBaseEthanol):
     valid_systems = ["archer2:compute", "cirrus:compute"]
     descr = LAMMPSBaseEthanol.descr + " -- CPU"
 
-    reference = deepcopy(LAMMPSBaseEthanol.reference)
+    #  reference = deepcopy(LAMMPSBaseEthanol.reference)
     reference["archer2:compute"]["performance"] = (
         15.850,
         -0.01,
@@ -67,6 +70,9 @@ class LAMMPSARCHER2EthanolCPU(LAMMPSBaseEthanol):
         "ns/day",
     )
     reference["cirrus:compute"]["performance"] = (4.8, -0.05, 0.05, "ns/day")
+    print("---CPU---")
+    print(reference)
+    print("---ENDCPU---")
 
     @run_after("init")
     def setup_nnodes(self):
@@ -105,13 +111,16 @@ class LAMMPSARCHER2EthanolGPU(LAMMPSBaseEthanol):
 
     executable_opts = LAMMPSBaseEthanol.executable_opts + ["-sf gpu -pk gpu 4"]
 
-    reference = deepcopy(LAMMPSBaseEthanol.reference)
+    #  reference = deepcopy(LAMMPSBaseEthanol.reference)
     reference["cirrus:compute-gpu"]["performance"] = (
         9.4,
         -0.05,
         0.05,
         "ns/day",
     )
+    print("---GPU---")
+    print(reference)
+    print("---ENDGPU---")
 
     @run_after("setup")
     def setup_gpu_options(self):
