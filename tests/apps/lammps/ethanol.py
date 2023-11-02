@@ -53,9 +53,9 @@ class LAMMPSARCHER2EthanolCPU(LAMMPSBaseEthanol):
     descr = LAMMPSBaseEthanol.descr + " -- CPU"
 
     reference["archer2:compute"]["performance"] = (
-        15.850,
-        -0.01,
-        0.01,
+        16.800,
+        -0.05,
+        0.05,
         "ns/day",
     )
     reference["archer2-tds:compute"]["performance"] = (
