@@ -88,10 +88,10 @@ class GromacsGPUCheck(Gromacs1400kAtomsBase):
     modules = ["gromacs/2022.3-gpu"]
     descr = Gromacs1400kAtomsBase.descr + " -- GPU"
     extra_resources = {
-        "qos": {"qos_id": "gpu"},
+        "qos": {"qos": "gpu"},
         "gpu": {"num_gpus_per_node": "4"},
     }
-    env_vars["PARAMS"] = '"--ntasks=40 --tasks-per-node=40"'
+    env_vars["PARAMS"] = '"--exclusive --ntasks=40 --tasks-per-node=40"'
 
     n_nodes = 1
     num_tasks = None
