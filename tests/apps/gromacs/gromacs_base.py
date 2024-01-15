@@ -3,26 +3,18 @@ import reframe.utility.sanity as sn
 
 
 class GromacsBaseCheck(rfm.RunOnlyRegressionTest):
+    """ReFrame base class for GROMACS tests"""
 
     valid_prog_environs = ["PrgEnv-gnu", "gnu", "nvidia-mpi"]
     executable = "gmx_mpi"
+    extra_resources = {"qos": {"qos": "standard"}}
 
     keep_files = ["md.log"]
 
-    maintainers = ["a.turner@epcc.ed.ac.uk"]
+    maintainers = ["r.apostolo@epcc.ed.ac.uk"]
     strict_check = True
     use_multithreading = False
-    extra_resources = {"qos": {"qos": "standard"}}
     tags = {"applications", "performance"}
-
-    energy_reference = -12071400.0
-
-    reference = {
-        'cirrus:compute': {'energy': (energy_reference, 0.01, 0.01, 'kJ/mol')},
-        'cirrus:compute-gpu': {'energy': (energy_reference, 0.01, 0.01, 'kJ/mol')},
-        'archer2:compute': {'energy': (energy_reference, 0.01, 0.01, 'kJ/mol')},
-        'archer2-tds:compute': {'energy': (energy_reference, 0.01, 0.01, 'kJ/mol')},
-    }
 
     @sanity_function
     def assert_finished(self):
