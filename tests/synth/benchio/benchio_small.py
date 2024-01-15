@@ -32,6 +32,7 @@ class benchioSmallTest(rfm.RegressionTest):
         '/mnt/lustre/a2fs-work1/work/z19/z19/shared',
         '/mnt/lustre/a2fs-work2/work/z19/z19/shared',
         '/mnt/lustre/a2fs-work3/work/z19/z19/shared',
+        '/mnt/lustre/a2fs-work4/work/z19/z19/shared',
         '/mnt/lustre/a2fs-nvme/work/z19/z19/shared'
         ]
     )
@@ -71,7 +72,7 @@ class benchioSmallTest(rfm.RegressionTest):
 
         self.env_vars = {"OMP_NUM_THREADS": str(self.num_cpus_per_task)}
 
-        self.prerun_cmds  = ['source create_striped_dirs.sh']
+        self.prerun_cmds  = ['source create_striped_dirs.sh', 'module remove darshan']
         self.postrun_cmds  = ['source delete_dirs.sh']
         self.time_limit = '9m'
         self.build_system = 'CMake'
