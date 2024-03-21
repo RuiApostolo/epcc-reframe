@@ -1,5 +1,17 @@
 """ARCHER2 settings"""
 
+from reframe.core.backends import register_launcher
+from reframe.core.launchers import JobLauncher
+
+
+@register_launcher("torchrun")
+class TorchRunLauncher(JobLauncher):
+    """TorchRunLauncher"""
+
+    def command(self, job):
+        return ["torchrun", "--nproc_per_node", str(job.num_tasks)]
+
+
 site_configuration = {
     "systems": [
         {
