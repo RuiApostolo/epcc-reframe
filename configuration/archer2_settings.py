@@ -9,8 +9,7 @@ class TorchRunLauncher(JobLauncher):
     """TorchRunLauncher"""
 
     def command(self, job):
-        return ["torchrun", "--nproc_per_node", str(job.num_tasks)]
-
+        return ['torchrun', f'--nproc_per_node={job.num_tasks}']
 
 site_configuration = {
     "systems": [
@@ -45,6 +44,7 @@ site_configuration = {
                     "name": "compute-gpu",
                     "descr": "Compute nodes with AMD GPUs",
                     "scheduler": "slurm",
+<<<<<<< HEAD
                     "launcher": "srun",
                     "access": ["--partition=gpu"],
                     "environs": [
@@ -52,6 +52,11 @@ site_configuration = {
                         "rocm-PrgEnv-cray",
                         "rocm-PrgEnv-aocc",
                     ],
+=======
+                    'launcher': 'torchrun',
+                    'access': ['--partition=gpu'],
+                    'environs': ['rocm-PrgEnv-gnu','rocm-PrgEnv-cray','rocm-PrgEnv-aocc'],
+>>>>>>> 4d92891 (updates)
                     "resources": [
                         {"name": "qos", "options": ["--qos={qos}"]},
                         {
