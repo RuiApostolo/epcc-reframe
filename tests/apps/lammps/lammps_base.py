@@ -8,9 +8,7 @@ class LAMMPSBase(rfm.RunOnlyRegressionTest):
 
     valid_prog_environs = ["PrgEnv-gnu", "intel", "nvidia-mpi"]
     executable = "lmp"
-    extra_resources = {
-        "qos": {"qos": "standard"},
-    }
+    extra_resources = {"qos": {"qos": "standard"}}
 
     keep_files = ["log.lammps"]
 

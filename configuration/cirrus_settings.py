@@ -36,10 +36,11 @@ site_configuration = {
                     "name": "compute-gpu",
                     "descr": "Compute nodes with GPUs",
                     "scheduler": "slurm",
+                    "sched_options": {"use_nodes_option": True},
                     "launcher": "srun",
                     "access": [
-                        "--hint=nomultithread",
-                        "--distribution=block:block",
+                        #  "--hint=nomultithread",
+                        #  "--distribution=block:block",
                         "--partition=gpu",
                     ],
                     "max_jobs": 4,

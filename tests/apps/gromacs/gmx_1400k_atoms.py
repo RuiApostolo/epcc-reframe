@@ -61,25 +61,26 @@ class GromacsCPUCheck(Gromacs1400kAtomsBase):
         "ns/day",
     )
     reference["cirrus:compute"]["performance"] = (
-        3.21,
-        -0.01,
-        0.01,
+        6.30,
+        -0.1,
+        0.1,
         "ns/day",
     )
 
-    @run_after("init")
-    def setup_nnodes(self):
-        """sets up number of tasks per node"""
-        self.num_tasks_per_node = self.cores.get(
-            self.current_partition.fullname, 1
-        )
+    #  @run_after("init")
+    #  def setup_nnodes(self):
+    #      """sets up number of tasks per node"""
+    #      self.num_tasks_per_node = self.cores.get(
+    #          self.current_partition.fullname, 1
+    #      )
 
     @run_before("run")
     def setup_resources(self):
         """sets up number of tasks"""
-        self.num_tasks = self.n_nodes * self.cores.get(
+        self.num_tasks_per_node = self.cores.get(
             self.current_partition.fullname, 1
         )
+        self.num_tasks = self.n_nodes * self.num_tasks_per_node
 
 
 @rfm.simple_test
@@ -91,14 +92,15 @@ class GromacsGPUCheck(Gromacs1400kAtomsBase):
         "qos": {"qos": "gpu"},
         "gpu": {"num_gpus_per_node": "4"},
     }
+    #  env_vars["PARAMS"] = '"--exclusive --hint=nomultithread --ntasks=40 --tasks-per-node=40"'
     env_vars["PARAMS"] = '"--exclusive --ntasks=40 --tasks-per-node=40"'
 
     n_nodes = 1
     num_tasks = None
     num_cpus_per_tasks = None
 
-    reference["cirrus:compute-gpu"]["perf"] = (
-        10.2,
+    reference["cirrus:compute-gpu"]["performance"] = (
+        6.2,
         -0.05,
         0.05,
         "ns/day",

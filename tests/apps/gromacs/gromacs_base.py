@@ -14,15 +14,16 @@ class GromacsBaseCheck(rfm.RunOnlyRegressionTest):
 
     maintainers = ["r.apostolo@epcc.ed.ac.uk"]
     strict_check = True
-    use_multithreading = False
     tags = {"applications", "performance"}
 
     @sanity_function
     def assert_finished(self):
+        """Sanity check that simulation finished successfully"""
         return sn.assert_found(r"Finished mdrun", self.keep_files[0])
 
     @performance_function("kJ/mol", perf_key="energy")
     def assert_energy(self):
+        """Extract value of system energy for performance check"""
         return sn.extractsingle(
             r"\s+Potential\s+Kinetic En\.\s+Total Energy"
             r"\s+Conserved En\.\s+Temperature\n"
@@ -34,7 +35,7 @@ class GromacsBaseCheck(rfm.RunOnlyRegressionTest):
             item=-1,
         )
 
-    @performance_function("ns/day", perf_key="perf")
+    @performance_function("ns/day", perf_key="performance")
     def extract_perf(self):
         """Extract performance value to compare with reference value"""
         return sn.extractsingle(
