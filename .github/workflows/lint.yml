@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   pylint:
     runs-on: ubuntu-latest
+    name: pylint
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
@@ -24,7 +25,7 @@ jobs:
         
   flake8-lint:
     runs-on: ubuntu-latest
-    name: Lint
+    name: flake8
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
