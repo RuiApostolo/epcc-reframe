@@ -25,27 +25,29 @@ jobs:
   flake8-lint:
     runs-on: ubuntu-latest
     name: Lint
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
-      - name: Check out source repository
-        uses: actions/checkout@v3
-      - name: Set up Python environment
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-      - name: flake8 Lint
-        uses: py-actions/flake8@v2
-        with:
-          ignore: "W503"
-          exclude: "src/ignoreme.py"
-          max-line-length: "120"
-          path: "tests"
-          plugins: "flake8-bugbear flake8-black flake8-pyproject"
+    - name: Check out source repository
+      uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: flake8 Lint
+      uses: py-actions/flake8@v2
+      with:
+        ignore: "W503"
+        max-line-length: "120"
+        path: "tests"
+        plugins: "flake8-bugbear flake8-black flake8-pyproject"
 
   python-black:
     name: Python Black
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Python Black
         uses: cytopia/docker-black@0.8
         with:
