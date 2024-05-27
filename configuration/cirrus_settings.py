@@ -1,3 +1,4 @@
+"""Cirrus configuration"""
 site_configuration = {
     "systems": [
         {
@@ -107,10 +108,7 @@ site_configuration = {
                     "type": "file",
                     "name": "reframe.log",
                     "level": "debug",
-                    "format": (
-                        "[%(asctime)s] %(levelname)s "
-                        "%(levelno)s: %(check_info)s: %(message)s"
-                    ),
+                    "format": ("[%(asctime)s] %(levelname)s " "%(levelno)s: %(check_info)s: %(message)s"),
                     "append": False,
                 },
             ],
