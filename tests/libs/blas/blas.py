@@ -13,12 +13,9 @@ class BLASBase(rfm.RegressionTest):
     tags = {"performance", "functionality", "short"}
 
     @run_after("setup")
-    def rename_files(self):
+    def change_make_exe(self):
         """Rename files according to variant"""
-        if self.valid_systems == "cirrus":
-            self.build_system.makefile = f"Makefile.{self.variant}.{self.valid_prog_environs}.cirrus"
-        else:
-            self.build_system.makefile = f"Makefile.{self.variant}"
+        self.build_system.makefile = f"Makefile.{self.variant}"
         self.executable = f"./dgemv_{self.variant}.x"
 
     @sanity_function
@@ -101,6 +98,11 @@ class CirrusBlasTest(BLASBase):
             "transpose": (7.80, -0.1, 0.1, "Gflops/s"),
         },
     }
+
+    @run_after("setup")
+    def change_makefile(self):
+        """Rename makefile according to variant"""
+        self.build_system.makefile = f"Makefile.{self.variant}.{self.current_environ}.cirrus"
 
     @run_after("setup")
     def load_module(self):
