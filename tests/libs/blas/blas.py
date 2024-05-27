@@ -37,7 +37,7 @@ class BLASBase(rfm.RegressionTest):
 
 
 @rfm.simple_test
-class ARCHER2BlasTest(rfm.RegressionTest):
+class ARCHER2BlasTest(BLASBase):
     """ARCHER2 BLAS test class"""
 
     variant = parameter(["libsci", "mkl"])
@@ -83,7 +83,7 @@ class ARCHER2BlasTest(rfm.RegressionTest):
 
 
 @rfm.simple_test
-class CirrusBlasTest(rfm.RegressionTest):
+class CirrusBlasTest(BLASBase):
     """Cirrus BLAS test class"""
 
     variant = parameter(["mkl"])
