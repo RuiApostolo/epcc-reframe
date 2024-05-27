@@ -56,7 +56,7 @@ class ARCHER2BlasTest(BLASBase):
             self.prebuild_cmds = []
 
     @run_after("setup")
-    def reference(self):
+    def set_reference(self):
         """setup reference values"""
         if self.variant == "mkl":
             self.reference = {
