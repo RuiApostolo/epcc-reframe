@@ -91,8 +91,8 @@ class CirrusBlasTest(BLASBase):
     valid_systems = ["cirrus"]
     valid_prog_environs = ["gnu", "intel"]
     reference = {
-        "cirrus:compute": {"normal": (7.40, -0.25, 0.25, "FLOP/s"), "transpose": (8.08, -0.33, 0.33, "FLOP/s")},
-        "cirrus:login": {"normal": (6.97, -0.1, 0.1, "FLOP/s"), "transpose": (7.80, -0.1, 0.1, "FLOP/s")},
+        "cirrus:compute": {"normal": (7.40, -0.25, 0.25, "Gflop/s"), "transpose": (8.08, -0.33, 0.33, "Gflop/s")},
+        "cirrus:login": {"normal": (6.97, -0.1, 0.1, "Gflop/s"), "transpose": (7.80, -0.1, 0.1, "Gflop/s")},
     }
 
     @run_after("setup")
