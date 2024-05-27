@@ -53,7 +53,6 @@ class ARCHER2BlasTest(BLASBase):
         if self.variant == "mkl":
             self.modules = ["mkl"]
             self.prebuild_cmds = ["module load mkl"]
-                maintainers = ["e.broadway@epcc.ed.ac.uk"]
         else:
             self.prebuild_cmds = []
 
@@ -96,11 +95,11 @@ class CirrusBlasTest(BLASBase):
         "cirrus:compute": {
             "normal": (7.40, -0.25, 0.25, "Gflops/s"),
             "transpose": (8.08, -0.33, 0.33, "Gflops/s"),
-            },
+        },
         "cirrus:login": {
             "normal": (6.97, -0.1, 0.1, "Gflops/s"),
             "transpose": (7.80, -0.1, 0.1, "Gflops/s"),
-            },
+        },
     }
 
     @run_after("setup")
