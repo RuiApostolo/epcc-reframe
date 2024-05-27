@@ -6,6 +6,7 @@ import reframe.utility.sanity as sn
 class BLASBase(rfm.RegressionTest):
     """Base class for BLAS tests"""
 
+    maintainers = ["e.broadway@epcc.ed.ac.uk"]
     build_system = "Make"
     executable_opts = ["3200", "150", "10000"]
     extra_resources = {"qos": {"qos": "standard"}}
@@ -52,6 +53,7 @@ class ARCHER2BlasTest(BLASBase):
         if self.variant == "mkl":
             self.modules = ["mkl"]
             self.prebuild_cmds = ["module load mkl"]
+                maintainers = ["e.broadway@epcc.ed.ac.uk"]
         else:
             self.prebuild_cmds = []
 
@@ -61,23 +63,23 @@ class ARCHER2BlasTest(BLASBase):
         if self.variant == "mkl":
             self.reference = {
                 "archer2:compute": {
-                    "normal": (14.00, -0.15, 0.15, "FLOP/s"),
-                    "transpose": (14.00, -0.15, 0.15, "FLOP/s"),
+                    "normal": (14.00, -0.15, 0.15, "Gflops/s"),
+                    "transpose": (14.00, -0.15, 0.15, "Gflops/s"),
                 },
                 "archer2:login": {
-                    "normal": (14.00, -0.15, 0.15, "FLOP/s"),
-                    "transpose": (14.00, -0.15, 0.15, "FLOP/s"),
+                    "normal": (14.00, -0.15, 0.15, "Gflops/s"),
+                    "transpose": (14.00, -0.15, 0.15, "Gflops/s"),
                 },
             }
         else:
             self.reference = {
                 "archer2:compute": {
-                    "normal": (16.75, -0.15, 0.15, "FLOP/s"),
-                    "transpose": (16.75, -0.15, 0.15, "FLOP/s"),
+                    "normal": (16.75, -0.15, 0.15, "Gflops/s"),
+                    "transpose": (16.75, -0.15, 0.15, "Gflops/s"),
                 },
                 "archer2:login": {
-                    "normal": (16.75, -0.15, 0.15, "FLOP/s"),
-                    "transpose": (16.75, -0.15, 0.15, "FLOP/s"),
+                    "normal": (16.75, -0.15, 0.15, "Gflops/s"),
+                    "transpose": (16.75, -0.15, 0.15, "Gflops/s"),
                 },
             }
 
@@ -91,8 +93,14 @@ class CirrusBlasTest(BLASBase):
     valid_systems = ["cirrus"]
     valid_prog_environs = ["gnu", "intel"]
     reference = {
-        "cirrus:compute": {"normal": (7.40, -0.25, 0.25, "Gflop/s"), "transpose": (8.08, -0.33, 0.33, "Gflop/s")},
-        "cirrus:login": {"normal": (6.97, -0.1, 0.1, "Gflop/s"), "transpose": (7.80, -0.1, 0.1, "Gflop/s")},
+        "cirrus:compute": {
+            "normal": (7.40, -0.25, 0.25, "Gflops/s"),
+            "transpose": (8.08, -0.33, 0.33, "Gflops/s"),
+            },
+        "cirrus:login": {
+            "normal": (6.97, -0.1, 0.1, "Gflops/s"),
+            "transpose": (7.80, -0.1, 0.1, "Gflops/s"),
+            },
     }
 
     @run_after("setup")
