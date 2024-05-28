@@ -102,7 +102,8 @@ class CirrusBlasTest(BLASBase):
     @run_after("setup")
     def change_makefile(self):
         """Rename makefile according to variant"""
-        self.build_system.makefile = f"Makefile.{self.variant}.{self.current_environ}.cirrus"
+        #  self.build_system.makefile = f"Makefile.{self.variant}.{self.current_environ}.cirrus"
+        pass
 
     @run_after("setup")
     def load_module(self):
