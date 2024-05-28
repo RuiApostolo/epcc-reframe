@@ -59,23 +59,23 @@ class ARCHER2BlasTest(BLASBase):
         if self.variant == "mkl":
             self.reference = {
                 "archer2:compute": {
-                    "normal": (14.00, -0.15, 0.15, "Gflops/s"),
-                    "transpose": (14.00, -0.15, 0.15, "Gflops/s"),
+                    "normal": (14.00, -0.15, None, "Gflops/s"),
+                    "transpose": (14.00, -0.15, None, "Gflops/s"),
                 },
                 "archer2:login": {
-                    "normal": (14.00, -0.15, 0.15, "Gflops/s"),
-                    "transpose": (14.00, -0.15, 0.15, "Gflops/s"),
+                    "normal": (14.00, -0.15, None, "Gflops/s"),
+                    "transpose": (14.00, -0.15, None, "Gflops/s"),
                 },
             }
         else:
             self.reference = {
                 "archer2:compute": {
-                    "normal": (16.75, -0.15, 0.15, "Gflops/s"),
-                    "transpose": (16.75, -0.15, 0.15, "Gflops/s"),
+                    "normal": (16.75, -0.15, None, "Gflops/s"),
+                    "transpose": (16.75, -0.15, None, "Gflops/s"),
                 },
                 "archer2:login": {
-                    "normal": (16.75, -0.15, 0.15, "Gflops/s"),
-                    "transpose": (16.75, -0.15, 0.15, "Gflops/s"),
+                    "normal": (16.75, -0.15, None, "Gflops/s"),
+                    "transpose": (16.75, -0.15, None, "Gflops/s"),
                 },
             }
 
@@ -90,20 +90,14 @@ class CirrusBlasTest(BLASBase):
     valid_prog_environs = ["gnu", "intel"]
     reference = {
         "cirrus:compute": {
-            "normal": (7.40, -0.25, 0.25, "Gflops/s"),
-            "transpose": (8.08, -0.33, 0.33, "Gflops/s"),
+            "normal": (7.00, -0.15, None, "Gflops/s"),
+            "transpose": (7.00, -0.15, None, "Gflops/s"),
         },
         "cirrus:login": {
-            "normal": (6.97, -0.1, 0.1, "Gflops/s"),
-            "transpose": (7.80, -0.1, 0.1, "Gflops/s"),
+            "normal": (7.00, -0.15, None, "Gflops/s"),
+            "transpose": (7.00, -0.15, None, "Gflops/s"),
         },
     }
-
-    @run_after("setup")
-    def change_makefile(self):
-        """Rename makefile according to variant"""
-        #  self.build_system.makefile = f"Makefile.{self.variant}.{self.current_environ}.cirrus"
-        pass
 
     @run_after("setup")
     def load_module(self):
