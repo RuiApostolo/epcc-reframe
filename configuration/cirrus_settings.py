@@ -1,53 +1,5 @@
 """Cirrus configuration"""
 
-from reframe.core.backends import register_launcher
-from reframe.core.launchers import JobLauncher
-
-
-class ParamaterizedPartitionDict(dict):
-    """ParameterizedPartitionDict"""
-
-    def __init__(self, num_gpus):
-        super().__init__()
-        if num_gpus <= 4:
-            num_nodes = 1
-        else:
-            if num_gpus / 4 - float(num_gpus // 4) == 0:
-                num_nodes = num_gpus // 4
-            else:
-                num_nodes = num_nodes // 4 + 1
-
-        base_partition = {
-            "name": f"compute-{num_gpus}-gpus",
-            "descr": f"Compute nodes with {num_gpus} GPUs but doesn't load nvcc compilers or mpi",
-            "scheduler": "slurm",
-            "launcher": "gpu_srun",
-            "access": [
-                "--partition=gpu",
-                "--qos=gpu",
-                "--exclusive",
-                f"--nodes={num_nodes}" f"--gres=gpu:{num_gpus}",
-            ],
-            "environs": ["Default"],
-        }
-
-
-@register_launcher("gpu_srun")
-class MultiGPULauncher(JobLauncher):
-    """MultiGPULauncher"""
-
-    def command(self, job):
-        if job.num_tasks <= 4:
-            t_p_n = job.num_tasks
-        else:
-            t_p_n = 4
-        return [
-            "srun",
-            f"--ntasks={job.num_tasks}",
-            f"--tasks-per-node={t_p_n}",
-        ]
-
-
 site_configuration = {
     "systems": [
         {
@@ -193,20 +145,18 @@ site_configuration = {
                     "append": True,
                 },
                 {
-                    'type': 'filelog',
-                    'prefix': '%(check_system)s/%(check_partition)s',
-                    'level': 'info',
-                    'format': (
-                        '%(check_display_name)s|%(check_result)s|%(check_job_completion_time)s|'
-                        '%(check_perf_var)s|'
-                        '%(check_perf_value)s %(check_perf_unit)s|'
-                        '(%(check_perf_ref)s, %(check_perf_lower_thres)s, %(check_perf_upper_thres)s)|'
+                    "type": "filelog",
+                    "prefix": "%(check_system)s/%(check_partition)s",
+                    "level": "info",
+                    "format": (
+                        "%(check_display_name)s|%(check_result)s|%(check_job_completion_time)s|"
+                        "%(check_perf_var)s|"
+                        "%(check_perf_value)s %(check_perf_unit)s|"
+                        "(%(check_perf_ref)s, %(check_perf_lower_thres)s, %(check_perf_upper_thres)s)|"
                     ),
-                    
-                    'append': True
+                    "append": True,
                 },
             ],
         }
     ],
 }
-
