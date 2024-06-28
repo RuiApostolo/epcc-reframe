@@ -52,13 +52,12 @@ class XthiCompilationTest(reframe.CompileOnlyRegressionTest):
     ]
     build_system = "Make"
     build_system_max_concurrency = 1
-    sourcedir = ""
     repo = fixture(XthiDownload, scope="environment")
 
-    @run_before("run")
+    @run_before("compile")
     def prepare_run(self):
         """Prepare run"""
-        self.sourcedir = os.path.join(
+        self.sourcesdir = os.path.join(
             self.repo.stagedir,
             "xthi",
             "src",
