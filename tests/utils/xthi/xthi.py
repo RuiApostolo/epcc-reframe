@@ -55,7 +55,7 @@ class XthiCompilationTest(reframe.CompileOnlyRegressionTest):
     sourcedir = ""
     repo = fixture(XthiDownload, scope="environment")
 
-    @run_before("run")
+    @run_after("init")
     def prepare_run(self):
         """Prepare run"""
         self.sourcedir = os.path.join(
