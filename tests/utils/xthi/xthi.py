@@ -23,6 +23,7 @@ class XthiCompilationTest(reframe.CompileOnlyRegressionTest):
         "intel",
     ]
     build_system = "Make"
+    build_system_max_concurrency = 1
 
     @run_after("init")
     def download_source(self):
@@ -35,10 +36,9 @@ class XthiCompilationTest(reframe.CompileOnlyRegressionTest):
         prefix = XthiDownLoadTest(part="login").stagedir
         self.sourcesdir = os.path.join(prefix, "xthi", "src")
 
-    @run_before("compile")
-    def set_make_options(self):
-        """Setup make options"""
-        build_system_max_concurrency = 1
+    #  @run_before("compile")
+    #  def set_make_options(self):
+    #      """Setup make options"""
 
     @sanity_function
     def sanity_check_build(self):
