@@ -53,7 +53,7 @@ class XthiCompilationTest(reframe.CompileOnlyRegressionTest):
     build_system = "Make"
     build_system_max_concurrency = 1
     sourcedir = ""
-    repo = fixture(XthiDownload, scope="system")
+    repo = fixture(XthiDownload, scope="environment")
 
     @run_before("run")
     def prepare_run(self):
