@@ -23,9 +23,13 @@ class InterfaceBoundsTest(rfm.RegressionTest):
 
     valid_systems = ["archer2:login", "cirrus:login"]
     valid_prog_environs = ["*"]
-    sourcepath = f"gcc-mpi_f08.{lang}"
     tags = {"functionality", "short", "issues"}
     maintainers = ["a.turner@epcc.ed.ac.uk"]
+
+    @run_after("init")
+    def setup_path(self):
+        """Sets up path"""
+        self.sourcepath = f"gcc-mpi_f08.{self.lang}"
 
     @sanity_function
     def assert_notfound(self):
