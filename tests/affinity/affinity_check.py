@@ -14,11 +14,14 @@ class AffinityTestBase(rfm.RegressionTest):
     valid_systems = ["archer2:compute", "cirrus:compute"]
     valid_prog_environs = ["*"]
     build_system = "SingleSource"
-    build_system.cflags = ["-fopenmp"]
     sourcepath = "affinity.c"
-    cflags = ["-fopenmp"]
     maintainers = ["a.turner@epcc.ed.ac.uk"]
     tags = {"functionality", "short"}
+
+    @run_before("compile")
+    def prepare_build(self):
+        """Setup build environment"""
+        self.build_system.cflags = ["-fopenmp"]
 
     @run_before("sanity")
     def set_sanity(self):
