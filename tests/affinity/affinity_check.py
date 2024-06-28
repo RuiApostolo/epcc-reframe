@@ -59,13 +59,13 @@ class AffinityOMPTest(AffinityTestBase):
     variant = parameter(["omp_bind_threads"])
 
     descr = "Checking core affinity for OMP threads."
+    cases = {}
 
     @run_after("init")
     def setup_environment(self):
         """Setup environment"""
-        cases = {}
         if self.current_system.name in ["archer2"]:
-            cases = {
+            self.cases = {
                 "omp_bind_threads": {
                     "ref_archer2:compute": "archer2_numa_omp.txt",
                     "num_cpus_per_task_archer2:compute": 16,
@@ -77,7 +77,7 @@ class AffinityOMPTest(AffinityTestBase):
             }
         # Each 18-core processor is a single NUMA region.
         if self.current_system.name in ["cirrus"]:
-            cases = {
+            self.cases = {
                 "omp_bind_threads": {
                     "ref_cirrus:compute": "cirrus_numa_omp.txt",
                     "num_cpus_per_task_cirrus:compute": 18,
@@ -87,9 +87,9 @@ class AffinityOMPTest(AffinityTestBase):
                     "OMP_PLACES": "cores",
                 },
             }
-        self.num_tasks = cases[self.variant]["num_tasks"]
-        self.num_tasks_per_node = cases[self.variant]["num_tasks_per_node"]
-        self.num_cpus_per_task = cases[self.variant]["num_cpus_per_task"]
+        self.num_tasks = self.cases[self.variant]["num_tasks"]
+        self.num_tasks_per_node = self.cases[self.variant]["num_tasks_per_node"]
+        self.num_cpus_per_task = self.cases[self.variant]["num_cpus_per_task"]
         self.extra_resources = {"qos": {"qos": "standard"}}
 
     @run_before("run")
