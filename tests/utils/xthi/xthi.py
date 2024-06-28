@@ -4,9 +4,37 @@
 import os
 
 import reframe
-from reframe.utility import sanity, udeps
+import reframe.utility.sanity as sn
+
+#  import reframe.utility.udeps as depends
 
 REPOURL = "https://github.com/ARCHER2-HPC/xthi.git"
+
+
+class XthiDownload(reframe.RunOnlyRegressionTest):
+    """Download our very own xthi code."""
+
+    descr = "xthi git clone"
+    valid_systems = ["archer2:login", "cirrus:login"]
+    valid_prog_environs = [
+        "PrgEnv-cray",
+        "PrgEnv-gnu",
+        "PrgEnv-aocc",
+        "gnu",
+        "intel",
+    ]
+    executable = "git"
+    executable_opts = ["clone", REPOURL]
+
+    @sanity_function
+    def validate_download(self):
+        """Checks that download completed"""
+        return sn.assert_eq(self.job.exitcode, 0)
+
+    #  @sanity_function
+    #  def sanity_check_download(self):
+    #      """Checks that files were downloaded"""
+    #      return sanity.assert_true(os.path.exists("xthi"))
 
 
 @reframe.simple_test
@@ -24,45 +52,26 @@ class XthiCompilationTest(reframe.CompileOnlyRegressionTest):
     ]
     build_system = "Make"
     build_system_max_concurrency = 1
+    repo = fixture(XthiDownload, scope="system")
 
-    @run_after("init")
-    def download_source(self):
-        """Download fresh copy of repo"""
-        self.depends_on("XthiDownLoadTest", udeps.fully)
+    sourcedir = os.path.join(
+        repo.stagedir,
+        "xthi",
+        "src",
+    )
 
-    @require_deps
-    def locate_source(self, XthiDownLoadTest):
-        """Find source dir"""
-        prefix = XthiDownLoadTest(part="login").stagedir
-        self.sourcesdir = os.path.join(prefix, "xthi", "src")
+    #  @run_after("init")
+    #  def download_source(self):
+    #      """Download fresh copy of repo"""
+    #      self.depends_on("XthiDownLoadTest", udeps.fully)
 
-    #  @run_before("compile")
-    #  def set_make_options(self):
-    #      """Setup make options"""
+    #  @require_deps
+    #  def locate_source(self, XthiDownLoadTest):
+    #      """Find source dir"""
+    #      prefix = XthiDownLoadTest(part="login").stagedir
+    #      self.sourcesdir = os.path.join(prefix, "xthi", "src")
 
     @sanity_function
     def sanity_check_build(self):
         """Ensure build completed without errors"""
-        return sanity.assert_not_found("error", self.stderr)
-
-
-@reframe.simple_test
-class XthiDownLoadTest(reframe.RunOnlyRegressionTest):
-    """Download our very own xthi code."""
-
-    descr = "xthi git clone"
-    valid_systems = ["archer2:login", "cirrus:login"]
-    valid_prog_environs = [
-        "PrgEnv-cray",
-        "PrgEnv-gnu",
-        "PrgEnv-aocc",
-        "gnu",
-        "intel",
-    ]
-    executable = "git"
-    executable_opts = ["clone", REPOURL]
-
-    @sanity_function
-    def sanity_check_download(self):
-        """Checks that files were downloaded"""
-        return sanity.assert_true(os.path.exists("xthi"))
+        return sn.assert_not_found("error", self.stderr)
