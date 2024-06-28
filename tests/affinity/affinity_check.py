@@ -156,10 +156,16 @@ class AffinityMPITestARCHER2(AffinityTestBase):
             "num_cpus_per_task": 16,
         },
     }
-    num_tasks = cases[variant]["num_tasks"]
-    num_tasks_per_node = cases[variant]["num_tasks_per_node"]
-    num_cpus_per_task = cases[variant]["num_cpus_per_task"]
-    extra_resources = {"qos": {"qos": "standard"}}
+
+    @run_after("init")
+    def setup_variant(self):
+        """sets up variants"""
+        self.num_tasks = self.cases[self.variant]["num_tasks"]
+        self.num_tasks_per_node = self.cases[self.variant][
+            "num_tasks_per_node"
+        ]
+        self.num_cpus_per_task = self.cases[self.variant]["num_cpus_per_task"]
+        self.extra_resources = {"qos": {"qos": "standard"}}
 
     @run_before("run")
     def set_launcher(self):
