@@ -60,7 +60,7 @@ class AffinityOMPTest(AffinityTestBase):
 
     descr = "Checking core affinity for OMP threads."
 
-    @run_before("run")
+    @run_after("init")
     def setup_environment(self):
         """Setup environment"""
         cases = {}
