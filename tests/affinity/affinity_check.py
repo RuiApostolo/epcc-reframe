@@ -87,7 +87,7 @@ class AffinityOMPTest(AffinityTestBase):
                     "OMP_PLACES": "cores",
                 },
             }
-        self.num_tasks = self.cases[self.variant]["num_tasks"]
+        self.num_tasks = cases[self.variant]["num_tasks"]
         self.num_tasks_per_node = cases[self.variant]["num_tasks_per_node"]
         self.num_cpus_per_task = cases[self.variant]["num_cpus_per_task"]
         self.extra_resources = {"qos": {"qos": "standard"}}
