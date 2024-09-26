@@ -10,7 +10,7 @@ from cosmo_base import CosmoFlowBaseCheck
 class CosmoFlowCPUCheck(CosmoFlowBaseCheck):
     """Cosmoflow CPU test"""
 
-    valid_prog_environs = ["PrgEnv-gnu"]
+    valid_prog_environs = ["PrgEnv-gnu", "gcc"]
     descr = "CosmoFlow CPU Benchmark"
     valid_systems = ["archer2:compute", "cirrus:compute"]
     num_tasks = 32
