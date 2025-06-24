@@ -103,7 +103,6 @@ class NAMDGPUMixin(rfm.RegressionMixin):
     """NAMD GPU test"""
 
     gpus_per_node = variable(int)
-    executable_opts = []
 
     @run_after("setup", always_last=True)
     def add_gpu_devices(self):

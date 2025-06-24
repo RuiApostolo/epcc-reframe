@@ -25,22 +25,6 @@ class DownloadStmvSource(rfm.CompileOnlyRegressionTest):
         ]
 
 
-class DownloadStmvGPUSource(rfm.CompileOnlyRegressionTest):
-    build_system = "CustomBuild"
-
-    @run_before("compile")
-    def setup_build(self):
-        self.build_system.commands = [
-            "wget https://www.ks.uiuc.edu/Research/namd/benchmarks/systems/stmv_gpu.tar.gz",
-            "sha256sum -c stmv_gpu_sha256sum.txt",
-            "tar xzf stmv_gpu.tar.gz",
-            "mv stmv_gpu/* .",
-            "rmdir stmv_gpu",
-            "rm stmv_gpu.tar.gz",
-            "sed -i '63s|outputName          /usr/tmp/stmv-output|outputName          stmv-output|' stmv.namd",
-        ]
-
-
 class NAMDStmvBase(NAMDBase):
     """ReFrame NAMD stmv (1M atoms) test base class"""
 
@@ -54,6 +38,7 @@ class NAMDStmvBase(NAMDBase):
     energy_reference = -2451700.0
 
     reference = {
+        "archer2:compute-gpu": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
         "archer2:compute": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
         "archer2-tds:compute": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
         "cirrus:compute": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
@@ -123,4 +108,5 @@ class NAMDStmvGPU(NAMDStmvBase, NAMDGPUMixin):
     gpus_per_node = 4
     qos = "gpu-exc"
 
+    reference["archer2:compute-gpu:performance"] = (5.31, -0.05, 0.05, "ns/day")
     reference["cirrus:compute-gpu:performance"] = (4.92, -0.05, 0.05, "ns/day")
