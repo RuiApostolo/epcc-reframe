@@ -45,7 +45,7 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
 
         self.executable_opts = (
             f"+setcpuaffinity +ppn {self.num_cpus_per_task - 1} "
-            "+pemap {','.join(pemap)} +commap {','.join(commap)}".split()
+            f"+pemap {','.join(pemap)} +commap {','.join(commap)}".split()
         )
 
     @run_before("run", always_last=True)
