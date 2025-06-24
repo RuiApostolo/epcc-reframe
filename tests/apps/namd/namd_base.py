@@ -7,9 +7,8 @@ import reframe.utility.sanity as sn
 class NAMDBase(rfm.RunOnlyRegressionTest):
     """ReFrame base class for NAMD tests"""
 
-    valid_prog_environs = ["intel", "nvidia-mpi", "PrgEnv-cray"]
-    modules = ["namd/2.14"]
-    executable = "namd2"
+    valid_prog_environs = ["intel", "nvidia-mpi", "PrgEnv-gnu", "rocm-PrgEnv-gnu"]
+    namd_version = parameter(["2.14", "3.0"])
 
     maintainers = ["n.mannall@epcc.ed.ac.uk"]
     strict_check = True
@@ -21,6 +20,11 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
     num_nodes = variable(int, value=1)
 
     num_cores_per_task = variable(dict, value={})
+
+    @run_after("init")
+    def paramaterise_version(self):
+        self.modules = [f"namd/{self.namd_version}"]
+        self.executable = f"namd{self.namd_version[0]}"
 
     @run_after("setup")
     def setup_resources(self):
@@ -83,7 +87,7 @@ class NAMDNoSMPMixin(rfm.RegressionMixin):
     @run_after("setup", always_last=True)
     def remove_smp(self):
         """remove smp"""
-        self.modules = ["namd/2.14-nosmp"]
+        self.modules = [f"namd/{self.namd_version}-nosmp"]
 
         proc = self.current_partition.processor
         self.num_cpus_per_task = 1
@@ -104,7 +108,13 @@ class NAMDGPUMixin(rfm.RegressionMixin):
     @run_after("setup", always_last=True)
     def add_gpu_devices(self):
         """GPU devices"""
-        self.modules = ["namd/2022.07.21-gpu"]
+        self.skip_if(self.namd_version == "2.14", "No GPU version installed for version 2.14")
+        if self.current_system.name == "archer2":
+            self.modules = [f"namd-gpu/{self.namd_version}"]
+            self.job.options += ["--exclusive", "--nodes=1"]
+            self.env_vars["ROCFFT_RTC_CACHE_PATH"] = "${HOME/home/work}/.cache/rocFFT"
+        else:
+            self.modules = ["namd/2022.07.21-gpu"]
 
         devices = [str(i) for i in range(self.gpus_per_node)]
         self.executable_opts += ["+devices", ",".join(devices)]

@@ -25,6 +25,22 @@ class DownloadStmvSource(rfm.CompileOnlyRegressionTest):
         ]
 
 
+class DownloadStmvGPUSource(rfm.CompileOnlyRegressionTest):
+    build_system = "CustomBuild"
+
+    @run_before("compile")
+    def setup_build(self):
+        self.build_system.commands = [
+            "wget https://www.ks.uiuc.edu/Research/namd/benchmarks/systems/stmv_gpu.tar.gz",
+            "sha256sum -c stmv_gpu_sha256sum.txt",
+            "tar xzf stmv_gpu.tar.gz",
+            "mv stmv_gpu/* .",
+            "rmdir stmv_gpu",
+            "rm stmv_gpu.tar.gz",
+            "sed -i '63s|outputName          /usr/tmp/stmv-output|outputName          stmv-output|' stmv.namd",
+        ]
+
+
 class NAMDStmvBase(NAMDBase):
     """ReFrame NAMD stmv (1M atoms) test base class"""
 
@@ -49,6 +65,7 @@ class NAMDStmvBase(NAMDBase):
         dict,
         value={
             "archer2:compute": 4,
+            "archer2:compute-gpu": 1,
             "archer2-tds:compute": 4,
             "cirrus:compute": 4,
             "cirrus:compute-gpu": 1,
@@ -58,6 +75,7 @@ class NAMDStmvBase(NAMDBase):
 
     num_cores_per_task = {
         "archer2:compute": 16,
+        "archer2:compute-gpu": 8,
         "archer2-tds:compute": 16,
         "cirrus:compute": 18,
         "cirrus:compute-gpu": 10,
@@ -98,11 +116,11 @@ class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
 
 @rfm.simple_test
 class NAMDStmvGPU(NAMDStmvBase, NAMDGPUMixin):
-    "NAMD STVM GPU" ""
-    valid_systems = ["cirrus:compute-gpu"]
+    """NAMD STVM GPU test"""
+    valid_systems = ["archer2:compute-gpu", "cirrus:compute-gpu"]
     descr = NAMDStmvBase.descr + " -- GPU"
 
     gpus_per_node = 4
-    qos = "short"
+    qos = "gpu-exc"
 
     reference["cirrus:compute-gpu:performance"] = (4.92, -0.05, 0.05, "ns/day")

@@ -66,6 +66,14 @@ site_configuration = {
                             "options": ["--gres=gpu:{num_gpus_per_node}"],
                         },
                     ],
+                    "processor": {
+                        "num_cpus": 32,
+                        "num_cpus_per_socket": 32,
+                        "num_sockets": 1,
+                    },
+                    "devices": [
+                        {"type": "gpu", "num_devices": 4}
+                    ],
                 },
                 {
                     "name": "compute-gpu-torch",
