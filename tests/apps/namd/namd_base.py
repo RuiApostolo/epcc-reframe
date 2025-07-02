@@ -1,5 +1,6 @@
 """ReFrame base module for NAMD tests"""
 
+from typing import TYPE_CHECKING
 import reframe as rfm
 import reframe.utility.sanity as sn
 
@@ -23,6 +24,7 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
 
     @run_after("init")
     def paramaterise_version(self):
+        """Set NAMD version"""
         self.modules = [f"namd/{self.namd_version}"]
         self.executable = f"namd{self.namd_version[0]}"
 
@@ -81,7 +83,16 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
         )
 
 
-class NAMDNoSMPMixin(rfm.RegressionMixin):
+# If using a static type checker, inherit from NAMDBase as the Mixin classes
+# should always have access to resources from that class. However, during
+# execution inherit rfm.from RegressionMixin.
+if TYPE_CHECKING:
+    NAMDMixin = NAMDBase
+else:
+    NAMDMixin = rfm.RegressionMixin
+
+
+class NAMDNoSMPMixin(NAMDMixin):
     """NAMD no SMP test"""
 
     @run_after("setup", always_last=True)
@@ -99,7 +110,7 @@ class NAMDNoSMPMixin(rfm.RegressionMixin):
         self.executable_opts = []
 
 
-class NAMDGPUMixin(rfm.RegressionMixin):
+class NAMDGPUMixin(NAMDMixin):
     """NAMD GPU test"""
 
     gpus_per_node = variable(int)
