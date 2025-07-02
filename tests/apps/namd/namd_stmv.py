@@ -102,6 +102,7 @@ class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
 @rfm.simple_test
 class NAMDStmvGPU(NAMDStmvBase, NAMDGPUMixin):
     """NAMD STVM GPU test"""
+
     valid_systems = ["archer2:compute-gpu", "cirrus:compute-gpu"]
     descr = NAMDStmvBase.descr + " -- GPU"
 
