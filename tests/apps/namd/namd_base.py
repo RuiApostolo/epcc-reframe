@@ -50,7 +50,8 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
             f"+pemap {','.join(pemap)} +commap {','.join(commap)}".split()
         )
 
-    @run_before("run", always_last=True)
+    # Make "always_last" if ReFrame version >= 4.4.0
+    @run_before("run")
     def set_input_file(self):
         """setup input file"""
         self.executable_opts.append(self.input_file)
@@ -95,7 +96,8 @@ else:
 class NAMDNoSMPMixin(NAMDMixin):
     """NAMD no SMP test"""
 
-    @run_after("setup", always_last=True)
+    # Change to "setup" and "always_last" if ReFrame version >= 4.4.0
+    @run_before("run")
     def remove_smp(self):
         """remove smp"""
         self.modules = [f"namd/{self.namd_version}-nosmp"]
@@ -115,7 +117,8 @@ class NAMDGPUMixin(NAMDMixin):
 
     gpus_per_node = variable(int)
 
-    @run_after("setup", always_last=True)
+    # Change to "setup" and "always_last" if ReFrame version >= 4.4.0
+    @run_before("run")
     def add_gpu_devices(self):
         """GPU devices"""
         self.skip_if(self.namd_version == "2.14", "No GPU version installed for version 2.14")

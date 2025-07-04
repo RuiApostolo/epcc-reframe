@@ -2,6 +2,7 @@
 """NAMD stmv tests"""
 
 import reframe as rfm
+import reframe.utility.sanity as sn
 
 from namd_base import NAMDBase, NAMDGPUMixin, NAMDNoSMPMixin
 
@@ -10,6 +11,9 @@ class DownloadStmvSource(rfm.CompileOnlyRegressionTest):
     """Download STVM"""
 
     build_system = "CustomBuild"
+
+    # Can be removed if ReFrame version updated to >= 4.6.0
+    sanity_patterns = sn.assert_true(1)
 
     @run_before("compile")
     def setup_build(self):
@@ -81,10 +85,10 @@ class NAMDStmvCPU(NAMDStmvBase):
 
     descr = NAMDStmvBase.descr + " -- CPU"
 
-    reference["archer2:compute:performance"] = (5.28, -0.05, 0.05, "ns/day")
-    reference["archer2-tds:compute:performance"] = (5.28, -0.05, 0.05, "ns/day")
-    reference["cirrus:compute:performance"] = (0.389, -0.05, 0.05, "ns/day")
-    reference["cirrus:highmem:performance"] = (0.371, -0.05, 0.05, "ns/day")
+    reference["archer2:compute"] = {"performance": (5.28, -0.05, 0.05, "ns/day")}
+    reference["archer2-tds:compute"] = {"performance": (5.28, -0.05, 0.05, "ns/day")}
+    reference["cirrus:compute"] = {"performance": (0.389, -0.05, 0.05, "ns/day")}
+    reference["cirrus:highmem"] = {"performance": (0.371, -0.05, 0.05, "ns/day")}
 
 
 @rfm.simple_test
@@ -93,10 +97,10 @@ class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
 
     descr = NAMDStmvBase.descr + " -- CPU, No SMP"
 
-    reference["archer2:compute:performance"] = (5.31, -0.05, 0.05, "ns/day")
-    reference["archer2-tds:compute:performance"] = (5.31, -0.05, 0.05, "ns/day")
-    reference["cirrus:compute:performance"] = (0.407, -0.05, 0.05, "ns/day")
-    reference["cirrus:highmem:performance"] = (0.377, -0.05, 0.05, "ns/day")
+    reference["archer2:compute"] = {"performance": (5.31, -0.05, 0.05, "ns/day")}
+    reference["archer2-tds:compute"] = {"performance": (5.31, -0.05, 0.05, "ns/day")}
+    reference["cirrus:compute"] = {"performance": (0.407, -0.05, 0.05, "ns/day")}
+    reference["cirrus:highmem"] = {"performance": (0.377, -0.05, 0.05, "ns/day")}
 
 
 @rfm.simple_test
@@ -109,5 +113,5 @@ class NAMDStmvGPU(NAMDStmvBase, NAMDGPUMixin):
     gpus_per_node = 4
     qos = "gpu-exc"
 
-    reference["archer2:compute-gpu:performance"] = (5.31, -0.05, 0.05, "ns/day")
-    reference["cirrus:compute-gpu:performance"] = (4.92, -0.05, 0.05, "ns/day")
+    reference["archer2:compute-gpu"] = {"performance": (5.31, -0.05, 0.05, "ns/day")}
+    reference["cirrus:compute-gpu"] = {"performance": (4.92, -0.05, 0.05, "ns/day")}
