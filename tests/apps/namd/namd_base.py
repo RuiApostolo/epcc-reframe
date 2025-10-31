@@ -94,12 +94,12 @@ else:
 
 
 class NAMDNoSMPMixin(NAMDMixin):
-    """NAMD no SMP test"""
+    """NAMD test without shared memory parallelisation (i.e. no OpenMP)"""
 
     # Change to "setup" and "always_last" if ReFrame version >= 4.4.0
     @run_before("run")
     def remove_smp(self):
-        """remove smp"""
+        """Remove shared memory parallelisation (SMP)"""
         self.modules = [f"namd/{self.namd_version}-nosmp"]
 
         proc = self.current_partition.processor

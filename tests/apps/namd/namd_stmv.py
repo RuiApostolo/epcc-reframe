@@ -93,7 +93,7 @@ class NAMDStmvCPU(NAMDStmvBase):
 
 @rfm.simple_test
 class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
-    """NAMD STVM CPU no SMP"""
+    """NAMD STVM CPU without shared memory parallelisation (i.e. no OpenMP)"""
 
     descr = NAMDStmvBase.descr + " -- CPU, No SMP"
 
