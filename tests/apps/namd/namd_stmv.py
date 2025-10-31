@@ -85,8 +85,8 @@ class NAMDStmvCPU(NAMDStmvBase):
 
     descr = NAMDStmvBase.descr + " -- CPU"
 
-    reference["archer2:compute"] = {"performance": (5.28, -0.05, 0.05, "ns/day")}
-    reference["archer2-tds:compute"] = {"performance": (5.28, -0.05, 0.05, "ns/day")}
+    reference["archer2:compute"] = {"performance": (5.06, -0.05, 0.05, "ns/day")}
+    reference["archer2-tds:compute"] = {"performance": (5.06, -0.05, 0.05, "ns/day")}
     reference["cirrus:compute"] = {"performance": (0.389, -0.05, 0.05, "ns/day")}
     reference["cirrus:highmem"] = {"performance": (0.371, -0.05, 0.05, "ns/day")}
 
@@ -97,8 +97,8 @@ class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
 
     descr = NAMDStmvBase.descr + " -- CPU, No SMP"
 
-    reference["archer2:compute"] = {"performance": (5.31, -0.05, 0.05, "ns/day")}
-    reference["archer2-tds:compute"] = {"performance": (5.31, -0.05, 0.05, "ns/day")}
+    reference["archer2:compute"] = {"performance": (5.07, -0.05, 0.05, "ns/day")}
+    reference["archer2-tds:compute"] = {"performance": (5.07, -0.05, 0.05, "ns/day")}
     reference["cirrus:compute"] = {"performance": (0.407, -0.05, 0.05, "ns/day")}
     reference["cirrus:highmem"] = {"performance": (0.377, -0.05, 0.05, "ns/day")}
 
