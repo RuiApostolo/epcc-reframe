@@ -40,6 +40,7 @@ site_configuration = {
                     "access": [
                         "--hint=nomultithread",
                         "--distribution=block:block",
+                        "--exclusive",
                         "--partition=standard",
                         "--qos=standard",
                     ],
