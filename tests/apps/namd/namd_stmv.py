@@ -2,6 +2,7 @@
 """NAMD stmv tests"""
 
 import reframe as rfm
+import reframe.utility.sanity as sn
 
 from namd_base import NAMDBase, NAMDGPUMixin, NAMDNoSMPMixin
 
@@ -10,6 +11,9 @@ class DownloadStmvSource(rfm.CompileOnlyRegressionTest):
     """Download STVM"""
 
     build_system = "CustomBuild"
+
+    # Can be removed if ReFrame version updated to >= 4.6.0
+    sanity_patterns = sn.assert_true(1)
 
     @run_before("compile")
     def setup_build(self):
@@ -38,6 +42,7 @@ class NAMDStmvBase(NAMDBase):
     energy_reference = -2451700.0
 
     reference = {
+        "archer2:compute-gpu": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
         "archer2:compute": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
         "archer2-tds:compute": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
         "cirrus:compute": {"energy": (energy_reference, -0.005, 0.005, "kcal/mol")},
@@ -49,6 +54,7 @@ class NAMDStmvBase(NAMDBase):
         dict,
         value={
             "archer2:compute": 4,
+            "archer2:compute-gpu": 1,
             "archer2-tds:compute": 4,
             "cirrus:compute": 4,
             "cirrus:compute-gpu": 1,
@@ -58,6 +64,7 @@ class NAMDStmvBase(NAMDBase):
 
     num_cores_per_task = {
         "archer2:compute": 16,
+        "archer2:compute-gpu": 8,
         "archer2-tds:compute": 16,
         "cirrus:compute": 18,
         "cirrus:compute-gpu": 10,
@@ -78,31 +85,33 @@ class NAMDStmvCPU(NAMDStmvBase):
 
     descr = NAMDStmvBase.descr + " -- CPU"
 
-    reference["archer2:compute:performance"] = (5.28, -0.05, 0.05, "ns/day")
-    reference["archer2-tds:compute:performance"] = (5.28, -0.05, 0.05, "ns/day")
-    reference["cirrus:compute:performance"] = (0.389, -0.05, 0.05, "ns/day")
-    reference["cirrus:highmem:performance"] = (0.371, -0.05, 0.05, "ns/day")
+    reference["archer2:compute"] = {"performance": (5.06, -0.05, 0.05, "ns/day")}
+    reference["archer2-tds:compute"] = {"performance": (5.06, -0.05, 0.05, "ns/day")}
+    reference["cirrus:compute"] = {"performance": (0.389, -0.05, 0.05, "ns/day")}
+    reference["cirrus:highmem"] = {"performance": (0.371, -0.05, 0.05, "ns/day")}
 
 
 @rfm.simple_test
 class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
-    """NAMD STVM CPU no SMP"""
+    """NAMD STVM CPU without shared memory parallelisation (i.e. no OpenMP)"""
 
     descr = NAMDStmvBase.descr + " -- CPU, No SMP"
 
-    reference["archer2:compute:performance"] = (5.31, -0.05, 0.05, "ns/day")
-    reference["archer2-tds:compute:performance"] = (5.31, -0.05, 0.05, "ns/day")
-    reference["cirrus:compute:performance"] = (0.407, -0.05, 0.05, "ns/day")
-    reference["cirrus:highmem:performance"] = (0.377, -0.05, 0.05, "ns/day")
+    reference["archer2:compute"] = {"performance": (5.07, -0.05, 0.05, "ns/day")}
+    reference["archer2-tds:compute"] = {"performance": (5.07, -0.05, 0.05, "ns/day")}
+    reference["cirrus:compute"] = {"performance": (0.407, -0.05, 0.05, "ns/day")}
+    reference["cirrus:highmem"] = {"performance": (0.377, -0.05, 0.05, "ns/day")}
 
 
 @rfm.simple_test
 class NAMDStmvGPU(NAMDStmvBase, NAMDGPUMixin):
-    "NAMD STVM GPU" ""
-    valid_systems = ["cirrus:compute-gpu"]
+    """NAMD STVM GPU test"""
+
+    valid_systems = ["archer2:compute-gpu", "cirrus:compute-gpu"]
     descr = NAMDStmvBase.descr + " -- GPU"
 
     gpus_per_node = 4
-    qos = "short"
+    qos = "gpu-exc"
 
-    reference["cirrus:compute-gpu:performance"] = (4.92, -0.05, 0.05, "ns/day")
+    reference["archer2:compute-gpu"] = {"performance": (5.31, -0.05, 0.05, "ns/day")}
+    reference["cirrus:compute-gpu"] = {"performance": (4.92, -0.05, 0.05, "ns/day")}
