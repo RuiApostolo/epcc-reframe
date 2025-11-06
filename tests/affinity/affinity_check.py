@@ -237,4 +237,3 @@ class AffinityMPITestCirrusEX(AffinityTestBase):
         """Sets launcher"""
         partname = self.current_partition.fullname
         self.job.launcher.options = self.cases[self.variant][f"runopts_{partname}"]
-
