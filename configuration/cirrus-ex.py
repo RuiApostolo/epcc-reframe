@@ -17,7 +17,7 @@ site_configuration = {
         {
             "name": "cirrus-ex",
             "descr": "Cirrus EX4000",
-            "hostnames": ["uan", "ln", "dvn"],
+            "hostnames": ["login"],
             "modules_system": "lmod",
             "partitions": [
                 {
