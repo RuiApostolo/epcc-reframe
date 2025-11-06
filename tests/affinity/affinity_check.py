@@ -9,7 +9,7 @@ import reframe.utility.sanity as sn
 class AffinityTestBase(rfm.RegressionTest):
     """Base class for the affinity tests"""
 
-    valid_systems = ["archer2:compute", "cirrus:compute"]
+    valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["*"]
     build_system = "SingleSource"
     sourcepath = "affinity.c"
@@ -72,6 +72,17 @@ class AffinityOMPTest(AffinityTestBase):
                     "num_tasks": 2,
                     "num_tasks_per_node": 2,
                     "num_cpus_per_task": 18,
+                    "OMP_PLACES": "cores",
+                },
+            }
+        if self.current_system.name in ["cirrus-ex"]:
+            self.cases = {
+                "omp_bind_threads": {
+                    "ref_cirrus:compute": "cirrus-ex_numa_omp.txt",
+                    "num_cpus_per_task_cirrus-ex:compute": 36,
+                    "num_tasks": 8,
+                    "num_tasks_per_node": 8,
+                    "num_cpus_per_task": 36,
                     "OMP_PLACES": "cores",
                 },
             }
@@ -190,3 +201,40 @@ class AffinityMPITestCirrus(AffinityTestBase):
         """Sets launcher"""
         partname = self.current_partition.fullname
         self.job.launcher.options = self.cases[self.variant][f"runopts_{partname}"]
+
+
+@rfm.simple_test
+class AffinityMPITestCirrusEX(AffinityTestBase):
+    """MPI affinity test for Cirrus EX"""
+
+    variant = parameter(["fully_populated_nosmt"])
+
+    descr = "Checking core affinity for MPI processes."
+    valid_systems = ["cirrus-ex:compute"]
+    cases = {
+        "fully_populated_nosmt": {
+            "ref_cirrus-ex:compute": "cirrus-ex_fully_populated_nosmt.txt",
+            "runopts_cirrus-ex:compute": [
+                "--hint=nomultithread",
+                "--distribution=block:block",
+            ],
+            "num_tasks": 288,
+            "num_tasks_per_node": 288,
+            "num_cpus_per_task": 1,
+        },
+    }
+
+    @run_after("init")
+    def setup_variant(self):
+        """sets up variants"""
+        self.num_tasks = self.cases[self.variant]["num_tasks"]
+        self.num_tasks_per_node = self.cases[self.variant]["num_tasks_per_node"]
+        self.num_cpus_per_task = self.cases[self.variant]["num_cpus_per_task"]
+        self.extra_resources = {"qos": {"qos": "standard"}}
+
+    @run_before("run")
+    def set_launcher(self):
+        """Sets launcher"""
+        partname = self.current_partition.fullname
+        self.job.launcher.options = self.cases[self.variant][f"runopts_{partname}"]
+
