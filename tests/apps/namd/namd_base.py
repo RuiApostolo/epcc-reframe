@@ -1,5 +1,6 @@
 """ReFrame base module for NAMD tests"""
 
+from typing import TYPE_CHECKING
 import reframe as rfm
 import reframe.utility.sanity as sn
 
@@ -7,9 +8,8 @@ import reframe.utility.sanity as sn
 class NAMDBase(rfm.RunOnlyRegressionTest):
     """ReFrame base class for NAMD tests"""
 
-    valid_prog_environs = ["intel", "nvidia-mpi", "PrgEnv-cray"]
-    modules = ["namd/2.14"]
-    executable = "namd2"
+    valid_prog_environs = ["intel", "nvidia-mpi", "PrgEnv-gnu", "rocm-PrgEnv-gnu"]
+    namd_version = parameter(["2.14", "3.0"])
 
     maintainers = ["n.mannall@epcc.ed.ac.uk"]
     strict_check = True
@@ -21,6 +21,12 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
     num_nodes = variable(int, value=1)
 
     num_cores_per_task = variable(dict, value={})
+
+    @run_after("init")
+    def paramaterise_version(self):
+        """Set NAMD version"""
+        self.modules = [f"namd/{self.namd_version}"]
+        self.executable = f"namd{self.namd_version[0]}"
 
     @run_after("setup")
     def setup_resources(self):
@@ -41,10 +47,11 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
 
         self.executable_opts = (
             f"+setcpuaffinity +ppn {self.num_cpus_per_task - 1} "
-            "+pemap {','.join(pemap)} +commap {','.join(commap)}".split()
+            f"+pemap {','.join(pemap)} +commap {','.join(commap)}".split()
         )
 
-    @run_before("run", always_last=True)
+    # Make "always_last" if ReFrame version >= 4.4.0
+    @run_before("run")
     def set_input_file(self):
         """setup input file"""
         self.executable_opts.append(self.input_file)
@@ -77,13 +84,23 @@ class NAMDBase(rfm.RunOnlyRegressionTest):
         )
 
 
-class NAMDNoSMPMixin(rfm.RegressionMixin):
-    """NAMD no SMP test"""
+# If using a static type checker, inherit from NAMDBase as the Mixin classes
+# should always have access to resources from that class. However, during
+# execution inherit rfm.from RegressionMixin.
+if TYPE_CHECKING:
+    NAMDMixin = NAMDBase
+else:
+    NAMDMixin = rfm.RegressionMixin
 
-    @run_after("setup", always_last=True)
+
+class NAMDNoSMPMixin(NAMDMixin):
+    """NAMD test without shared memory parallelisation (i.e. no OpenMP)"""
+
+    # Change to "setup" and "always_last" if ReFrame version >= 4.4.0
+    @run_before("run")
     def remove_smp(self):
-        """remove smp"""
-        self.modules = ["namd/2.14-nosmp"]
+        """Remove shared memory parallelisation (SMP)"""
+        self.modules = [f"namd/{self.namd_version}-nosmp"]
 
         proc = self.current_partition.processor
         self.num_cpus_per_task = 1
@@ -95,16 +112,22 @@ class NAMDNoSMPMixin(rfm.RegressionMixin):
         self.executable_opts = []
 
 
-class NAMDGPUMixin(rfm.RegressionMixin):
+class NAMDGPUMixin(NAMDMixin):
     """NAMD GPU test"""
 
     gpus_per_node = variable(int)
-    executable_opts = []
 
-    @run_after("setup", always_last=True)
+    # Change to "setup" and "always_last" if ReFrame version >= 4.4.0
+    @run_before("run")
     def add_gpu_devices(self):
         """GPU devices"""
-        self.modules = ["namd/2022.07.21-gpu"]
+        self.skip_if(self.namd_version == "2.14", "No GPU version installed for version 2.14")
+        if self.current_system.name == "archer2":
+            self.modules = [f"namd-gpu/{self.namd_version}"]
+            self.job.options += ["--exclusive", "--nodes=1"]
+            self.env_vars["ROCFFT_RTC_CACHE_PATH"] = "${HOME/home/work}/.cache/rocFFT"
+        else:
+            self.modules = ["namd/2022.07.21-gpu"]
 
         devices = [str(i) for i in range(self.gpus_per_node)]
         self.executable_opts += ["+devices", ",".join(devices)]
