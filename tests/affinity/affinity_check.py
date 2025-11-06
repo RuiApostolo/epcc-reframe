@@ -78,7 +78,7 @@ class AffinityOMPTest(AffinityTestBase):
         if self.current_system.name in ["cirrus-ex"]:
             self.cases = {
                 "omp_bind_threads": {
-                    "ref_cirrus:compute": "cirrus-ex_numa_omp.txt",
+                    "ref_cirrus-ex:compute": "cirrus-ex_numa_omp.txt",
                     "num_cpus_per_task_cirrus-ex:compute": 36,
                     "num_tasks": 8,
                     "num_tasks_per_node": 8,
