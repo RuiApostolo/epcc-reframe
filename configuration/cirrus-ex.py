@@ -49,6 +49,7 @@ site_configuration = {
                         "PrgEnv-gnu",
                         "PrgEnv-cray",
                         "PrgEnv-aocc",
+                        "PrgEnv-intel"
                     ],
                     "max_jobs": 64,
                     "processor": {
