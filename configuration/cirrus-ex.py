@@ -17,7 +17,7 @@ site_configuration = {
         {
             "name": "cirrus-ex",
             "descr": "Cirrus EX4000",
-            "hostnames": ["uan", "ln", "dvn"],
+            "hostnames": ["login"],
             "modules_system": "lmod",
             "partitions": [
                 {
@@ -30,6 +30,7 @@ site_configuration = {
                         "PrgEnv-gnu",
                         "PrgEnv-cray",
                         "PrgEnv-aocc",
+                        "PrgEnv-intel"
                     ],
                 },
                 {
@@ -40,6 +41,7 @@ site_configuration = {
                     "access": [
                         "--hint=nomultithread",
                         "--distribution=block:block",
+                        "--exclusive",
                         "--partition=standard",
                         "--qos=standard",
                     ],
@@ -47,6 +49,7 @@ site_configuration = {
                         "PrgEnv-gnu",
                         "PrgEnv-cray",
                         "PrgEnv-aocc",
+                        "PrgEnv-intel"
                     ],
                     "max_jobs": 64,
                     "processor": {
@@ -78,6 +81,14 @@ site_configuration = {
         {
             "name": "PrgEnv-aocc",
             "modules": ["PrgEnv-aocc"],
+            "cc": "cc",
+            "cxx": "CC",
+            "ftn": "ftn",
+            "target_systems": ["cirrus-ex"],
+        },
+        {
+            "name": "PrgEnv-intel",
+            "modules": ["PrgEnv-intel"],
             "cc": "cc",
             "cxx": "CC",
             "ftn": "ftn",

@@ -15,8 +15,9 @@ class CrayCPUTargetTest(rfm.RunOnlyRegressionTest):
     """Checks that CPU target is correctly set"""
 
     descr = "Checks whether CRAY_CPU_TARGET is set"
-    valid_systems = ["archer2:login"]
-    valid_prog_environs = ["PrgEnv-cray", "PrgEnv-gnu", "PrgEnv-aocc"]
+    valid_systems = ["archer2:login", "cirrus-ex:compute"]
+    valid_prog_environs = ["*"]
+
     sourcesdir = None
     executable = "echo CRAY_CPU_TARGET=$CRAY_CPU_TARGET"
 

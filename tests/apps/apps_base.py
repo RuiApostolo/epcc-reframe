@@ -16,8 +16,8 @@ class AppsFetchBase(rfm.RunOnlyRegressionTest):
     executable = "wget"
     executable_opts = [f"app-{version}"]
     local = True
-    valid_systems = [""]
-    valid_prog_environs = [""]
+    valid_systems = ["*"]
+    valid_prog_environs = ["*"]
 
     @sanity_function
     def validate_download(self):
@@ -31,8 +31,8 @@ class AppsCompileBase(rfm.CompileOnlyRegressionTest, metaclass=abc.ABCMeta):
 
     descr = "Build app"
     build_system = ""
-    valid_systems = [""]
-    valid_prog_environs = [""]
+    valid_systems = ["*"]
+    valid_prog_environs = ["*"]
 
     @abc.abstractmethod
     @run_after("init")
@@ -60,7 +60,7 @@ class AppsRunBase(rfm.RunOnlyRegressionTest, metaclass=abc.ABCMeta):
     tags = {""}  # { "applications", "performance", "largescale", "hugescale"}
 
     # Test environments
-    valid_prog_environs = [""]
+    valid_prog_environs = ["*"]
 
     # Test executables
     executable = ""

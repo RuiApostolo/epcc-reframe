@@ -15,7 +15,7 @@ class DefaultPrgEnvCheck(rfm.RunOnlyRegressionTest):
     """Check the default compilers"""
 
     descr = "Ensure PrgEnv-cray is loaded by default"
-    valid_systems = ["archer2:login"]
+    valid_systems = ["archer2:login", "cirrus-ex:login"]
     valid_prog_environs = ["Default"]
     executable = "module"
     executable_opts = ["-t", "list"]
@@ -50,8 +50,8 @@ class EnvironmentCheck(rfm.RunOnlyRegressionTest):
     """Check programming environemnts load correctly"""
 
     descr = "Ensure programming environment is loaded correctly"
-    valid_systems = ["archer2:login", "cirrus:login"]
-    valid_prog_environs = ["PrgEnv-cray", "PrgEnv-gnu", "PrgEnv-aocc", "gcc", "intel"]
+    valid_systems = ["archer2:login", "cirrus:login", "cirrus-ex:login"]
+    valid_prog_environs = ["PrgEnv-cray", "PrgEnv-gnu", "PrgEnv-aocc", "PrgEnv-intel", "gcc", "intel"]
 
     executable = "module"
     # redirecting stderr because lmod on A2 writes to stderr but tclmod on cirrus writes to stdout
