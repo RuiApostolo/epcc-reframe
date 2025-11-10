@@ -113,3 +113,47 @@ class CirrusBlasTest(BLASBase):
             self.prebuild_cmds = ["module load intel-20.4/cmkl"]
         else:
             self.prebuild_cmds = []
+
+@rfm.simple_test
+class CirrusEXBlasTest(BLASBase):
+    """Cirrus EX BLAS test class"""
+
+    variant = parameter(["libsci"])
+
+    valid_systems = ["cirrus-ex"]
+    valid_prog_environs = ["PrgEnv-gnu", "PrgEnv-aocc", "PrgEnv-cray", "PrgEnv-intel"]
+
+    @run_after("setup")
+    def load_module(self):
+        """load correct module"""
+        if self.variant == "mkl":
+            self.modules = ["mkl"]
+            self.prebuild_cmds = ["module load mkl"]
+        else:
+            self.prebuild_cmds = []
+
+    @run_after("setup")
+    def set_reference(self):
+        """setup reference values"""
+        if self.variant == "mkl":
+            self.reference = {
+                "archer2:compute": {
+                    "normal": (14.00, -0.15, None, "Gflops/s"),
+                    "transpose": (14.00, -0.15, None, "Gflops/s"),
+                },
+                "archer2:login": {
+                    "normal": (14.00, -0.15, None, "Gflops/s"),
+                    "transpose": (14.00, -0.15, None, "Gflops/s"),
+                },
+            }
+        else:
+            self.reference = {
+                "archer2:compute": {
+                    "normal": (16.75, -0.15, None, "Gflops/s"),
+                    "transpose": (16.75, -0.15, None, "Gflops/s"),
+                },
+                "archer2:login": {
+                    "normal": (16.75, -0.15, None, "Gflops/s"),
+                    "transpose": (16.75, -0.15, None, "Gflops/s"),
+                },
+            }
