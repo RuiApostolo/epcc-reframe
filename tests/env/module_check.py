@@ -50,7 +50,7 @@ class EnvironmentCheck(rfm.RunOnlyRegressionTest):
     """Check programming environemnts load correctly"""
 
     descr = "Ensure programming environment is loaded correctly"
-    valid_systems = ["archer2:login", "cirrus:login"]
+    valid_systems = ["archer2:login", "cirrus:login", "cirrus-ex:login"]
     valid_prog_environs = ["*"]
 
     executable = "module"
