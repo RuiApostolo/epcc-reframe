@@ -85,6 +85,14 @@ site_configuration = {
             "target_systems": ["cirrus-ex"],
         },
         {
+            "name": "PrgEnv-intel",
+            "modules": ["PrgEnv-intel"],
+            "cc": "cc",
+            "cxx": "CC",
+            "ftn": "ftn",
+            "target_systems": ["cirrus-ex"],
+        },
+        {
             "name": "Default",
             "cc": "cc",
             "cxx": "CC",
