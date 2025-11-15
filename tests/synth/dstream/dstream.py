@@ -17,7 +17,7 @@ import reframe.utility.sanity as sn
 class StreamTest(rfm.RegressionTest):
     """Stream test class"""
 
-    valid_systems = ["archer2:compute", "cirrus:compute"]
+    valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["*"]
     build_system = "Make"
     executable = "distributed_streams"
@@ -25,6 +25,12 @@ class StreamTest(rfm.RegressionTest):
 
     reference = {
         "archer2:compute": {
+            "Copy": (208600, -0.05, 0.05, "MB/s"),
+            "Scale": (199000, -0.05, 0.05, "MB/s"),
+            "Add": (215700, -0.05, 0.05, "MB/s"),
+            "Triad": (219400, -0.05, 0.05, "MB/s"),
+        },
+        "cirrus-ex:compute": {
             "Copy": (208600, -0.05, 0.05, "MB/s"),
             "Scale": (199000, -0.05, 0.05, "MB/s"),
             "Add": (215700, -0.05, 0.05, "MB/s"),
@@ -39,8 +45,8 @@ class StreamTest(rfm.RegressionTest):
     }
 
     # System specific settings
-    ntasks = {"archer2:compute": 128, "cirrus:compute": 36}
-    ntasks_per_node = {"archer2:compute": 128, "cirrus:compute": 36}
+    ntasks = {"archer2:compute": 128, "cirrus:compute": 36, "cirrus-ex:compute": 288}
+    ntasks_per_node = {"archer2:compute": 128, "cirrus:compute": 36, "cirrus-ex:compute": 288}
     # These are the arguments to DistributedStream it
     #   arg1: number of elements in each array created. Should exceed the size of
     #         the highest cache level. (Arrays are double precision.)
@@ -51,6 +57,7 @@ class StreamTest(rfm.RegressionTest):
     args = {
         "archer2:compute": ["24000000", "1000"],
         "cirrus:compute": ["4500000", "1000"],
+        "cirrus-ex:compute": ["32000000", "1000"],
     }
 
     maintainers = ["a.turner@epcc.ed.ac.uk"]
