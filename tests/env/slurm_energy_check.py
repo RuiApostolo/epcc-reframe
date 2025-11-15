@@ -22,8 +22,9 @@ class SlurmEnergy1nodeTest(rfm.RunOnlyRegressionTest):
 
     reference = {
         "archer2:compute": {"energy-diff": (0, -1, 1, "J")},
-        "cirrus-ex:compute": {"energy-diff": (0, -1, 1, "J")}
-        }
+        "cirrus-ex:compute": {"energy-diff": (0, -1, 1, "J")},
+    }
+
 
     @sanity_function
     def assert_finished(self):
@@ -80,8 +81,8 @@ class SlurmEnergy4nodesTest(rfm.RunOnlyRegressionTest):
 
     reference = {
         "archer2:compute": {"energy-diff": (0, -1, 1, "J")},
-        "cirrus-ex:compute": {"energy-diff": (0, -1, 1, "J")}
-        }
+        "cirrus-ex:compute": {"energy-diff": (0, -1, 1, "J")},
+    }
 
     @sanity_function
     def assert_finished(self):
