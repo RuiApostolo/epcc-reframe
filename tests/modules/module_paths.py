@@ -92,7 +92,7 @@ class CirrusEXPaths(rfm.RegressionMixin):
             "/opt/cray/pe/lmod/modulefiles/core",
             "/opt/cray/pe/lmod/modulefiles/craype-targets/default",
             "/opt/modulefiles",
-            "/opt/cray/modulefiles"
+            "/opt/cray/modulefiles",
         ]
     )
 
