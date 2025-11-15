@@ -114,6 +114,7 @@ class CirrusBlasTest(BLASBase):
         else:
             self.prebuild_cmds = []
 
+
 @rfm.simple_test
 class CirrusEXBlasTest(BLASBase):
     """Cirrus EX BLAS test class"""

@@ -25,7 +25,6 @@ class SlurmEnergy1nodeTest(rfm.RunOnlyRegressionTest):
         "cirrus-ex:compute": {"energy-diff": (0, -1, 1, "J")},
     }
 
-
     @sanity_function
     def assert_finished(self):
         """Sanity check that SLURM_CPU_FREQ_REQ is set"""
