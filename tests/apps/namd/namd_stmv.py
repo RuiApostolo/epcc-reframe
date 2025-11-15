@@ -4,7 +4,7 @@
 import reframe as rfm
 import reframe.utility.sanity as sn
 
-from namd_base import NAMDBase, NAMDGPUMixin, NAMDNoSMPMixin
+from namd_base import NAMDBase
 
 
 class DownloadStmvSource(rfm.CompileOnlyRegressionTest):
@@ -92,7 +92,7 @@ class NAMDStmvCPU(NAMDStmvBase):
 
 
 @rfm.simple_test
-class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
+class NAMDStmvCPUNoSMP(NAMDStmvBase):
     """NAMD STVM CPU without shared memory parallelisation (i.e. no OpenMP)"""
 
     descr = NAMDStmvBase.descr + " -- CPU, No SMP"
@@ -104,7 +104,7 @@ class NAMDStmvCPUNoSMP(NAMDStmvBase, NAMDNoSMPMixin):
 
 
 @rfm.simple_test
-class NAMDStmvGPU(NAMDStmvBase, NAMDGPUMixin):
+class NAMDStmvGPU(NAMDStmvBase):
     """NAMD STVM GPU test"""
 
     valid_systems = ["archer2:compute-gpu", "cirrus:compute-gpu"]
