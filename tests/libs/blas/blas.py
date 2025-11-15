@@ -137,22 +137,22 @@ class CirrusEXBlasTest(BLASBase):
         """setup reference values"""
         if self.variant == "mkl":
             self.reference = {
-                "archer2:compute": {
+                "cirrus-ex:compute": {
                     "normal": (14.00, -0.15, None, "Gflops/s"),
                     "transpose": (14.00, -0.15, None, "Gflops/s"),
                 },
-                "archer2:login": {
+                "cirrus-ex:login": {
                     "normal": (14.00, -0.15, None, "Gflops/s"),
                     "transpose": (14.00, -0.15, None, "Gflops/s"),
                 },
             }
         else:
             self.reference = {
-                "archer2:compute": {
+                "cirrus-ex:compute": {
                     "normal": (16.75, -0.15, None, "Gflops/s"),
                     "transpose": (16.75, -0.15, None, "Gflops/s"),
                 },
-                "archer2:login": {
+                "cirrus-ex:login": {
                     "normal": (16.75, -0.15, None, "Gflops/s"),
                     "transpose": (16.75, -0.15, None, "Gflops/s"),
                 },
