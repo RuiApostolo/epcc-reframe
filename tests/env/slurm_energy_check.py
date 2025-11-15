@@ -1,4 +1,4 @@
-"""Reframe test to check that CPU target environment variable is correctly set"""
+"""Reframe test to check that Slurm reports energy use"""
 
 # Based on work from:
 #   Copyright 2016-2020 Swiss National Supercomputing Centre (CSCS/ETH Zurich)
@@ -14,13 +14,16 @@ class SlurmEnergy1nodeTest(rfm.RunOnlyRegressionTest):
     """Checks the energy reporting with a delay"""
 
     descr = "Checks whether slurm collects the energy usage of jobs correctly"
-    valid_systems = ["archer2:compute"]
+    valid_systems = ["archer2:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["PrgEnv-cray"]
     executable = "./energy_diff.sh"
 
     tags = {"production", "maintenance", "craype"}
 
-    reference = {"archer2:compute": {"energy-diff": (0, -1, 1, "J")}}
+    reference = {
+        "archer2:compute": {"energy-diff": (0, -1, 1, "J")},
+        "cirrus-ex:compute": {"energy-diff": (0, -1, 1, "J")},
+    }
 
     @sanity_function
     def assert_finished(self):
@@ -65,7 +68,7 @@ class SlurmEnergy4nodesTest(rfm.RunOnlyRegressionTest):
     """Checks the energy reporting with a delay"""
 
     descr = "Checks whether slurm collects the energy usage of jobs correctly"
-    valid_systems = ["archer2:compute"]
+    valid_systems = ["archer2:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["PrgEnv-cray"]
     executable = "./energy_diff_multi.sh"
 
@@ -75,7 +78,10 @@ class SlurmEnergy4nodesTest(rfm.RunOnlyRegressionTest):
 
     tags = {"production", "maintenance", "craype"}
 
-    reference = {"archer2:compute": {"energy-diff": (0, -1, 1, "J")}}
+    reference = {
+        "archer2:compute": {"energy-diff": (0, -1, 1, "J")},
+        "cirrus-ex:compute": {"energy-diff": (0, -1, 1, "J")},
+    }
 
     @sanity_function
     def assert_finished(self):

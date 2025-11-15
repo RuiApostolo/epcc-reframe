@@ -36,8 +36,8 @@ class MpiInitTest(rfm.RegressionTest):
 
     required_thread = parameter(["single", "funneled", "serialized", "multiple"])
 
-    valid_systems = ["archer2:compute", "cirrus:compute"]
-    valid_prog_environs = ["PrgEnv-cray", "PrgEnv-gnu", "PrgEnv-aocc", "gcc", "intel"]
+    valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
+    valid_prog_environs = ["PrgEnv-cray", "PrgEnv-gnu", "PrgEnv-aocc", "PrgEnv-intel", "gcc", "intel"]
     build_system = "SingleSource"
     sourcepath = "mpi_init_thread.cpp"
     time_limit = "1m"
@@ -83,8 +83,8 @@ class MpiInitTest(rfm.RegressionTest):
 class MpiHelloTest(rfm.RegressionTest):
     """MPI Hello World test"""
 
-    valid_systems = ["archer2:compute", "cirrus:compute"]
-    valid_prog_environs = ["PrgEnv-cray", "PrgEnv-gnu", "PrgEnv-aocc", "gcc", "intel"]
+    valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
+    valid_prog_environs = ["PrgEnv-cray", "PrgEnv-gnu", "PrgEnv-aocc", "PrgEnv-intel", "gcc", "intel"]
 
     descr = "MPI Hello World"
     sourcepath = "mpi_helloworld.c"
