@@ -4,7 +4,7 @@
 import reframe as rfm
 import reframe.utility.sanity as sn
 
-from namd_base import NAMDBase, NAMDGPUMixin, NAMDNoSMPMixin
+from namd_base import NAMDBase, NAMDNoSMPMixin
 
 
 class DownloadStmvSource(rfm.CompileOnlyRegressionTest):
