@@ -25,7 +25,7 @@ class InterfaceBoundsTest(rfm.RegressionTest):
     valid_systems = [
         "archer2:login",
         "cirrus:login",
-        "cirrus-ex-login"
+        "cirrus-ex:login"
         ]
     valid_prog_environs = [
         "Default",
