@@ -13,11 +13,12 @@ class XthiCompilationTest(reframe.CompileOnlyRegressionTest):
 
     maintainers = ["k.straford@epcc.ed.ac.uk"]
     descr = "xthi compilation test"
-    valid_systems = ["archer2:login", "cirrus:login"]
+    valid_systems = ["archer2:login", "cirrus:login", "cirrus-ex:login"]
     valid_prog_environs = [
         "PrgEnv-cray",
         "PrgEnv-gnu",
         "PrgEnv-aocc",
+        "PrgEnv-intel",
         "gcc",
         "intel",
     ]

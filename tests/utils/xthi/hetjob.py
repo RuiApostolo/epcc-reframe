@@ -24,14 +24,14 @@ class SharedCommWorldTest(rfm.RunOnlyRegressionTest):
 
     maintainers = ["k.stratford@epcc.ed.ac.uk"]
     descr = "SLURM hetjob for xthi shared MPI_COM_WORLD"
-    valid_systems = ["archer2:compute"]
+    valid_systems = ["archer2:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["*"]
     modules = ["xthi"]
 
     # Utter, utter kludge
     # 1 + 2 nodes; 8 + 2x4 MPI tasks
-    hetgroup0 = "--het-group=0 --nodes=1 --ntasks=8 --ntasks-per-node=8 xthi"
-    hetgroup1 = "--het-group=1 --nodes=2 --ntasks=8 --ntasks-per-node=4 xthi"
+    hetgroup0 = "--het-group=0 --nodes=1 --ntasks=8 --ntasks-per-node=8 xthi_mpi_mp"
+    hetgroup1 = "--het-group=1 --nodes=2 --ntasks=8 --ntasks-per-node=4 xthi_mpi_mp"
     executable = hetgroup0 + " : " + hetgroup1
 
     time_limit = "2m"
@@ -56,7 +56,7 @@ class SharedCommWorldWithOpenMPTest(rfm.RunOnlyRegressionTest):
     """
 
     descr = "SLURM hetjob for shared MPI_COM_WORLD with OpenMP"
-    valid_systems = ["archer2:compute"]
+    valid_systems = ["archer2:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["*"]
     modules = ["xthi"]
 
@@ -64,8 +64,8 @@ class SharedCommWorldWithOpenMPTest(rfm.RunOnlyRegressionTest):
     shared_args = " --nodes=1 --ntasks=8 --tasks-per-node=8 --cpus-per-task=16"
     openmp0 = " --export=all,OMP_NUM_THREADS=16"
     openmp1 = " --export=all,OMP_NUM_THREADS=1"
-    hetgroup0 = "--het-group=0" + shared_args + openmp0 + " xthi"
-    hetgroup1 = "--het-group=1" + shared_args + openmp1 + " xthi"
+    hetgroup0 = "--het-group=0" + shared_args + openmp0 + " xthi_mpi_mp"
+    hetgroup1 = "--het-group=1" + shared_args + openmp1 + " xthi_mpi_mp"
     executable = hetgroup0 + " : " + hetgroup1
 
     time_limit = "2m"
