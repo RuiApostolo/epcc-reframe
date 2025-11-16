@@ -175,7 +175,8 @@ class OSUAllreduceTest(OSUBenchmarkTestBase):
             "blocking",
             "osu_allreduce"
         )
-        self.executable_opts = ["-m", "8", "-x", "1000", "-i", "20000"]
+        # "-m 4:8" is needed as OSU seems to segfault in some cases with "-m 8"
+        self.executable_opts = ["-m", "4:8", "-x", "1000", "-i", "20000"]
 
     @performance_function("us")
     def latency(self):
