@@ -35,8 +35,9 @@ class PullOSUContainerCirrusEX(rfm.RunOnlyRegressionTest):
     valid_systems = ["cirrus-ex:login"]
     valid_prog_environs = ["PrgEnv-gnu"]
     executable = "apptainer"
-    image_name = "osu-benchmarks:7.5.1"
-    executable_opts = ["pull", f"docker://ghcr.io/epcced/epcc-reframe/{image_name}"]
+    image_name = "osu-benchmarks"
+    image_version = "7.5.1"
+    executable_opts = ["pull", f"docker://ghcr.io/epcced/epcc-reframe/{image_name}:{image_version}"]
     local = True
 
     @sanity_function
@@ -167,7 +168,7 @@ class OSUContainerTestCirrusEX(rfm.RunOnlyRegressionTest):
 
         self.executable_opts = [
             "run",
-            os.path.join(self.osu_container.stagedir, self.osu_container.image_name + "_latest.sif"),
+            os.path.join(self.osu_container.stagedir, self.osu_container.image_name + "_" self.osu_container.image_version + ".sif"),
             "osu_allreduce",
         ]
 
