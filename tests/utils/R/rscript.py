@@ -29,7 +29,10 @@ class RscriptInstall(RscriptBase):
     """Tests installing packages with R on the login nodes"""
 
     descr = "Tests that R packages can be installed locally. Requires internet access."
-    valid_systems = ["archer2:login"]
+    valid_systems = [
+        "archer2:login",
+        "cirrus-ex:login"
+        ]
     local = True
     executable_opts = ["install_benchmark_packages.R"]
     libs_path = None
@@ -61,7 +64,12 @@ class RscriptRun(RscriptBase):
             Uses packages installed locally
             in a previous test.
             """
-    valid_systems = ["archer2:login", "archer2:compute"]
+    valid_systems = [
+        "archer2:login",
+        "archer2:compute",
+        "cirrus-ex:login",
+        "cirrus-ex:compute"
+        ]
     executable_opts = ["run_benchmark.R"]
     library = fixture(RscriptInstall, scope="session")
     libs_path = None
