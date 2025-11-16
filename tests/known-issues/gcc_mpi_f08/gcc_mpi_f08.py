@@ -22,8 +22,20 @@ class InterfaceBoundsTest(rfm.RegressionTest):
 
     lang = parameter(["f90"])
 
-    valid_systems = ["archer2:login", "cirrus:login"]
-    valid_prog_environs = ["Default", "PrgEnv-cray", "PrgEnv-gnu", "gcc", "intel"]
+    valid_systems = [
+        "archer2:login",
+        "cirrus:login",
+        "cirrus-ex-login"
+        ]
+    valid_prog_environs = [
+        "Default",
+        "PrgEnv-cray",
+        "PrgEnv-gnu",
+        "PrgEnv-aocc",
+        "PrgEnv-intel",
+        "gcc",
+        "intel"
+        ]
     tags = {"functionality", "short", "issues"}
     maintainers = ["a.turner@epcc.ed.ac.uk"]
 
