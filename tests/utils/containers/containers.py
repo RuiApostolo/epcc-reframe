@@ -15,7 +15,7 @@ class PullOSUContainer(rfm.RunOnlyRegressionTest):
     """Pull a container containing an osu benchmark"""
 
     descr = "Pull an OSU benchmark container from github "
-    valid_systems = ["archer2:login, cirrus-ex:login"]
+    valid_systems = ["archer2:login", "cirrus-ex:login"]
     valid_prog_environs = ["PrgEnv-gnu"]
     # On Cirrus EX, this relies on "singularity" being an alias for "apptainer"
     executable = "singularity"
