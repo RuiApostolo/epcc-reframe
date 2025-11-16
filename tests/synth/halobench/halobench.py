@@ -38,7 +38,7 @@ import reframe.utility.sanity as sn
 class HalobenchBuildTest(rfm.RegressionTest):
     """Halobench build test class"""
 
-    valid_systems = ["archer2:compute"]
+    valid_systems = ["archer2:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["PrgEnv-cray"]
 
     build_system = "Make"

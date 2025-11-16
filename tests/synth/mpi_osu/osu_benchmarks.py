@@ -17,15 +17,17 @@ class OSUDownload(rfm.RunOnlyRegressionTest):
     """Download test"""
 
     descr = "OSU benchmarks download sources"
+    valid_systems = ["archer2:login", "cirrus:login", "cirrus-ex:login"]
     valid_prog_environs = [
         "PrgEnv-gnu",
         "PrgEnv-cray",
         "PrgEnv-aocc",
+        "PrgEnv-intel",
         "gcc",
         "intel",
     ]
     executable = "wget"
-    executable_opts = ["http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-5.6.2.tar.gz"]
+    executable_opts = ["http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-7.5.1.tar.gz"]
     local = True
 
     @sanity_function
@@ -38,11 +40,12 @@ class OSUBuild(rfm.CompileOnlyRegressionTest):
     """Build Test"""
 
     descr = "OSU benchmarks build test (currently fails with  Cray)"
-    valid_systems = ["archer2:compute", "cirrus:compute"]
+    valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
     valid_prog_environs = [
         "PrgEnv-gnu",
         "PrgEnv-cray",
         "PrgEnv-aocc",
+        "PrgEnv-intel",
         "gcc",
         "intel",
     ]
@@ -54,7 +57,7 @@ class OSUBuild(rfm.CompileOnlyRegressionTest):
     @run_before("compile")
     def set_build_system_attrs(self):
         """setup concurrency"""
-        tarball = "osu-micro-benchmarks-5.6.2.tar.gz"
+        tarball = "osu-micro-benchmarks-7.5.1.tar.gz"
         self.build_prefix = tarball[:-7]
         fullpath = os.path.join(self.osu_benchmarks.stagedir, tarball)
         self.prebuild_cmds += [
@@ -73,11 +76,12 @@ class OSUBuild(rfm.CompileOnlyRegressionTest):
 class OSUBenchmarkTestBase(rfm.RunOnlyRegressionTest):
     """Base class of OSU benchmarks runtime tests"""
 
-    valid_systems = ["archer2:compute", "cirrus:compute"]
+    valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
     valid_prog_environs = [
         "PrgEnv-gnu",
         "PrgEnv-cray",
         "PrgEnv-aocc",
+        "PrgEnv-intel",
         "gcc",
         "intel",
     ]
@@ -105,8 +109,10 @@ class OSULatencyTest(OSUBenchmarkTestBase):
         self.executable = os.path.join(
             self.osu_binaries.stagedir,
             self.osu_binaries.build_prefix,
+            "c",
             "mpi",
             "pt2pt",
+            "standard",
             "osu_latency",
         )
         self.executable_opts = ["-x", "100", "-i", "1000"]
@@ -130,8 +136,10 @@ class OSUBandwidthTest(OSUBenchmarkTestBase):
         self.executable = os.path.join(
             self.osu_binaries.stagedir,
             self.osu_binaries.build_prefix,
+            "c",
             "mpi",
             "pt2pt",
+            "standard",
             "osu_bw",
         )
         self.executable_opts = ["-x", "100", "-i", "1000"]
@@ -159,9 +167,16 @@ class OSUAllreduceTest(OSUBenchmarkTestBase):
     def set_executable(self):
         """Setup executable"""
         self.executable = os.path.join(
-            self.osu_binaries.stagedir, self.osu_binaries.build_prefix, "mpi", "collective", "osu_allreduce"
+            self.osu_binaries.stagedir,
+            self.osu_binaries.build_prefix,
+            "c",
+            "mpi",
+            "collective",
+            "blocking",
+            "osu_allreduce",
         )
-        self.executable_opts = ["-m", "8", "-x", "1000", "-i", "20000"]
+        # "-m 4:8" is needed as OSU seems to segfault in some cases with "-m 8"
+        self.executable_opts = ["-m", "4:8", "-x", "1000", "-i", "20000"]
 
     @performance_function("us")
     def latency(self):
