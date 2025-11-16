@@ -29,7 +29,7 @@ class PullOSUContainerARCHER2(rfm.RunOnlyRegressionTest):
 
 
 class PullOSUContainerCirrusEX(rfm.RunOnlyRegressionTest):
-    """Pull a container containing an osu benchmark - GLIBC compatible with CirrusEX OS""""
+    """Pull a container containing an osu benchmark - GLIBC compatible with CirrusEX OS"""
 
     descr = "Pull an OSU benchmark container from github "
     valid_systems = ["cirrus-ex:login"]
