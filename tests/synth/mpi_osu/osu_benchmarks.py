@@ -45,7 +45,8 @@ class OSUBuild(rfm.CompileOnlyRegressionTest):
         "PrgEnv-gnu",
         "PrgEnv-cray",
         "PrgEnv-aocc",
-        "PrgEnv-intel" "gcc",
+        "PrgEnv-intel",
+        "gcc",
         "intel",
     ]
     build_system = "Autotools"
