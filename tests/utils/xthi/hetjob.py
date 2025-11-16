@@ -24,7 +24,7 @@ class SharedCommWorldTest(rfm.RunOnlyRegressionTest):
 
     maintainers = ["k.stratford@epcc.ed.ac.uk"]
     descr = "SLURM hetjob for xthi shared MPI_COM_WORLD"
-    valid_systems = ["archer2:compute"]
+    valid_systems = ["archer2:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["*"]
     modules = ["xthi"]
 
@@ -56,7 +56,7 @@ class SharedCommWorldWithOpenMPTest(rfm.RunOnlyRegressionTest):
     """
 
     descr = "SLURM hetjob for shared MPI_COM_WORLD with OpenMP"
-    valid_systems = ["archer2:compute"]
+    valid_systems = ["archer2:compute", "cirrus-ex:compute"]
     valid_prog_environs = ["*"]
     modules = ["xthi"]
 
