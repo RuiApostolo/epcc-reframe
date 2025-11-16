@@ -11,15 +11,31 @@ import reframe as rfm
 import reframe.utility.sanity as sn
 
 
-class PullOSUContainer(rfm.RunOnlyRegressionTest):
-    """Pull a container containing an osu benchmark"""
+class PullOSUContainerARCHER2(rfm.RunOnlyRegressionTest):
+    """Pull a container containing an osu benchmark - GLIBC compatible with ARCHER2 OS"""
 
     descr = "Pull an OSU benchmark container from github "
-    valid_systems = ["archer2:login", "cirrus-ex:login"]
+    valid_systems = ["archer2:login"]
     valid_prog_environs = ["PrgEnv-gnu"]
-    # On Cirrus EX, this relies on "singularity" being an alias for "apptainer"
     executable = "singularity"
     image_name = "archer2_osu"
+    executable_opts = ["pull", f"docker://ghcr.io/epcced/epcc-reframe/{image_name}"]
+    local = True
+
+    @sanity_function
+    def validate_download(self):
+        """Sanity Check"""
+        return sn.assert_not_found("error", self.stderr)
+
+
+class PullOSUContainerCirrusEX(rfm.RunOnlyRegressionTest):
+    """Pull a container containing an osu benchmark - GLIBC compatible with CirrusEX OS""""
+
+    descr = "Pull an OSU benchmark container from github "
+    valid_systems = ["cirrus-ex:login"]
+    valid_prog_environs = ["PrgEnv-gnu"]
+    executable = "apptainer"
+    image_name = "osu-benchmarks:7.5.1"
     executable_opts = ["pull", f"docker://ghcr.io/epcced/epcc-reframe/{image_name}"]
     local = True
 
@@ -34,7 +50,7 @@ class OSUContainerTestARCHER2(rfm.RunOnlyRegressionTest):
     """Run the OSU benchmark in a container"""
 
     descr = "OSU benchmarks in a container"
-    osu_container = fixture(PullOSUContainer, scope="session")
+    osu_container = fixture(PullOSUContainerARCHER2, scope="session")
     valid_systems = ["archer2:compute"]
     valid_prog_environs = ["PrgEnv-gnu"]
     num_tasks = 256
@@ -101,7 +117,7 @@ class OSUContainerTestCirrusEX(rfm.RunOnlyRegressionTest):
     """Run the OSU benchmark in a container"""
 
     descr = "OSU benchmarks in a container"
-    osu_container = fixture(PullOSUContainer, scope="session")
+    osu_container = fixture(PullOSUContainerCirrusEX, scope="session")
     valid_systems = ["cirrus-ex:compute"]
     valid_prog_environs = ["PrgEnv-gnu"]
     num_tasks = 576
