@@ -109,8 +109,10 @@ class OSULatencyTest(OSUBenchmarkTestBase):
         self.executable = os.path.join(
             self.osu_binaries.stagedir,
             self.osu_binaries.build_prefix,
+            "c",
             "mpi",
             "pt2pt",
+            "standard",
             "osu_latency",
         )
         self.executable_opts = ["-x", "100", "-i", "1000"]
@@ -134,8 +136,10 @@ class OSUBandwidthTest(OSUBenchmarkTestBase):
         self.executable = os.path.join(
             self.osu_binaries.stagedir,
             self.osu_binaries.build_prefix,
+            "c",
             "mpi",
             "pt2pt",
+            "standard",
             "osu_bw",
         )
         self.executable_opts = ["-x", "100", "-i", "1000"]
@@ -163,7 +167,13 @@ class OSUAllreduceTest(OSUBenchmarkTestBase):
     def set_executable(self):
         """Setup executable"""
         self.executable = os.path.join(
-            self.osu_binaries.stagedir, self.osu_binaries.build_prefix, "mpi", "collective", "osu_allreduce"
+            self.osu_binaries.stagedir,
+            self.osu_binaries.build_prefix,
+            "c",
+            "mpi",
+            "collective",
+            "blocking",
+            "osu_allreduce"
         )
         self.executable_opts = ["-m", "8", "-x", "1000", "-i", "20000"]
 
