@@ -22,8 +22,16 @@ class InterfaceBoundsTest(rfm.RegressionTest):
 
     lang = parameter(["f90"])
 
-    valid_systems = ["archer2:login", "cirrus:login"]
-    valid_prog_environs = ["Default", "PrgEnv-cray", "PrgEnv-gnu", "gcc", "intel"]
+    valid_systems = ["archer2:login", "cirrus:login", "cirrus-ex:login"]
+    valid_prog_environs = [
+        "Default",
+        "PrgEnv-cray",
+        "PrgEnv-gnu",
+        # "PrgEnv-aocc", # AOCC cannot even compile the test successfully
+        "PrgEnv-intel",
+        "gcc",
+        "intel",
+    ]
     tags = {"functionality", "short", "issues"}
     maintainers = ["a.turner@epcc.ed.ac.uk"]
 
@@ -36,7 +44,7 @@ class InterfaceBoundsTest(rfm.RegressionTest):
     def assert_result(self):
         """Checks that issue was not found for non-gcc compilers"""
         # Expect gcc to fail check
-        if self.current_environ.name in ["PrgEnv-gnu", "gcc"]:
+        if self.current_environ.name in ["PrgEnv-gnu", "gcc"] and self.current_system.name in ["archer2"]:
             return sn.assert_found(r"F", self.stdout)
         # Expect other compilers to pass check
         return sn.assert_not_found(r"F", self.stdout)
