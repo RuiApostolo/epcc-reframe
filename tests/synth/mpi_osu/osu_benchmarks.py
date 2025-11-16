@@ -45,8 +45,7 @@ class OSUBuild(rfm.CompileOnlyRegressionTest):
         "PrgEnv-gnu",
         "PrgEnv-cray",
         "PrgEnv-aocc",
-        "PrgEnv-intel"
-        "gcc",
+        "PrgEnv-intel" "gcc",
         "intel",
     ]
     build_system = "Autotools"
@@ -173,7 +172,7 @@ class OSUAllreduceTest(OSUBenchmarkTestBase):
             "mpi",
             "collective",
             "blocking",
-            "osu_allreduce"
+            "osu_allreduce",
         )
         # "-m 4:8" is needed as OSU seems to segfault in some cases with "-m 8"
         self.executable_opts = ["-m", "4:8", "-x", "1000", "-i", "20000"]
