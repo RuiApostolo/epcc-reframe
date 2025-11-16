@@ -158,7 +158,7 @@ class OSUContainerTestCirrusEX(rfm.RunOnlyRegressionTest):
     }
 
     reference = {
-        "cirrus-ex:compute": {"latency_big": (2200, -0.02, 0.30, "us"), "latency_small": (8.4, -0.05, 0.30, "us")}
+        "cirrus-ex:compute": {"latency_big": (1100, -0.02, 0.30, "us"), "latency_small": (9.7, -0.05, 0.30, "us")}
     }
 
     @require_deps
