@@ -168,7 +168,7 @@ class OSUContainerTestCirrusEX(rfm.RunOnlyRegressionTest):
 
         self.executable_opts = [
             "run",
-            os.path.join(self.osu_container.stagedir, self.osu_container.image_name + "_" self.osu_container.image_version + ".sif"),
+            os.path.join(self.osu_container.stagedir, self.osu_container.image_name + "_" + self.osu_container.image_version + ".sif"),
             "osu_allreduce",
         ]
 
