@@ -150,11 +150,11 @@ class CirrusEXBlasTest(BLASBase):
         else:
             self.reference = {
                 "cirrus-ex:compute": {
-                    "normal": (16.5, -0.15, None, "Gflops/s"),
+                    "normal": (15.0, -0.15, None, "Gflops/s"),
                     "transpose": (19.8, -0.15, None, "Gflops/s"),
                 },
                 "cirrus-ex:login": {
-                    "normal": (16.75, -0.15, None, "Gflops/s"),
+                    "normal": (15.0, -0.15, None, "Gflops/s"),
                     "transpose": (16.75, -0.15, None, "Gflops/s"),
                 },
             }

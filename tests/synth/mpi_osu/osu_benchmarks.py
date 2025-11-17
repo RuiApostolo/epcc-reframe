@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MPI OSU benchmarks
+MPI OSU benchmarks - skip CCE (Cray compilers) as OSU fails to build with CCE
 # Based on work by:
 #   Copyright 2016-2021 Swiss National Supercomputing Centre (CSCS/ETH Zurich)
 #   ReFrame Project Developers. See the top-level LICENSE file for details.
@@ -43,7 +43,6 @@ class OSUBuild(rfm.CompileOnlyRegressionTest):
     valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
     valid_prog_environs = [
         "PrgEnv-gnu",
-        "PrgEnv-cray",
         "PrgEnv-aocc",
         "PrgEnv-intel",
         "gcc",
@@ -79,7 +78,6 @@ class OSUBenchmarkTestBase(rfm.RunOnlyRegressionTest):
     valid_systems = ["archer2:compute", "cirrus:compute", "cirrus-ex:compute"]
     valid_prog_environs = [
         "PrgEnv-gnu",
-        "PrgEnv-cray",
         "PrgEnv-aocc",
         "PrgEnv-intel",
         "gcc",
